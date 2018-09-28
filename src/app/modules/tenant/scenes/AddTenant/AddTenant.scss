@@ -1,0 +1,23 @@
+.tenants-page {
+    padding-top: 20px;
+
+    .react-datepicker__input-container {
+        width: 100%;
+    }
+    
+    .react-tabs__tab-panel {
+        border: 1px solid #e3e3e3;
+        border-top: 0;
+        padding: 15px;
+        padding-bottom: 0;
+    }
+}
+
+
+@media only screen and (max-width:900px){
+    .tenants-page {
+        .nav.nav-tabs {
+            flex-direction: column;
+        }
+    }
+ }

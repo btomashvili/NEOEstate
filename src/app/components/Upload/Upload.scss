@@ -1,0 +1,184 @@
+@import '../../resources/assets/scss/loader';
+.upload {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  &--picture-md {
+    .upload__picture {
+      flex-basis: 50%;
+      width: 60px;
+      height: 97px;
+    }
+  }
+  &--picture-circled {
+    .upload__picture {
+      border-radius: 100%;
+    }
+  }
+  &__button {
+    &--red-violet {
+      .upload__info {
+        .button {
+          background: $RedViolet;
+        }
+      }
+    }
+  }
+  &--user {
+    .upload__picture {
+      background: {
+        image: url('../../resources/assets/images/user.svg');
+        color: white;
+        repeat: no-repeat;
+      }
+    }
+  }
+  &__label {
+    color: $WaikawaGray;
+    font-size: em(14);
+    margin-bottom: 6px;
+    display: block;
+    font-family: $arialMT;
+    &--required {
+      display: flex;
+      align-items: center;
+      &:after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        padding-left: 4px;
+        background: url(../../resources/assets/images/icons/required-star.svg)no-repeat center center;
+      }
+    }
+  }
+  &__picture {
+    flex-basis: 28%;
+    &-img {
+      width: 130px;
+      height: 130px;
+      background-size: cover!important;
+      margin: 1px;
+      background: {
+        image: url('../../resources/assets/images/male.png');
+        color: white;
+        repeat: no-repeat;
+        position: center center;
+      }
+      &--has-error {
+        box-shadow: 0 0 0 1px $RedViolet;
+      }
+      overflow: hidden;
+    }
+  }
+  &__preview {
+    width: 100%;
+  }
+  &-wrapper {
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  &__info {
+    max-width: 345px;
+    p {
+      margin-left: 22px;
+      font: {
+        size: em(12);
+        family: $arialMT;
+      }
+      letter-spacing: -0.1px;
+      color: $WaikawaGray;
+      span:last-child {
+        display: inline-block;
+        margin-top: 22px;
+      }
+    }
+    &--has-error {
+      * {
+        color: $RedViolet;
+      }
+    }
+  }
+  &__button {
+    position: relative;
+    background: $WildBlueYonder;
+    padding: 9px 27px;
+    bordeR: none;
+    outline: none;
+    margin-top: 22px;
+    margin-left: 22px;
+    color: white;
+    cursor: pointer;
+    font: {
+      size: em(14);
+      family: $arialMT;
+      weight: bold;
+    }
+  }
+  &__input {
+    display: none;
+  }
+  &__picture {
+    &--sm {
+      .upload__picture-img {
+        width: 97px;
+        height: 97px;
+      }
+    }
+    &--rounded {
+      .upload__picture-img {
+        border-radius: 50px;
+      }
+    }
+  }
+}
+
+.steps__participants-registration {
+  .upload-wrapper {
+    .upload {
+      @media screen and (max-width: 770px) {
+        display: block !important;
+      }
+    }
+    .upload__picture-img {
+      @media screen and (max-width: 770px) {
+        margin: 0 auto;
+      }
+    }
+    .upload__info {
+      @media screen and (max-width: 770px) {
+        text-align: center;
+        max-width: none;
+      }
+    }
+    .upload__button {
+      @media screen and (max-width: 770px) {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    .download__button {
+      text-decoration: none;
+      margin-left: 10px;
+      padding: 10px 27px;
+      @media screen and (max-width: 770px) {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    .upload__info .align--left {
+      @media screen and (max-width: 770px) {
+        text-align: center;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      span {
+        @media screen and (max-width: 460px) {
+          display: none;
+        }
+      }
+    }
+  }
+}

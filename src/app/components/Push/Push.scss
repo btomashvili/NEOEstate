@@ -1,0 +1,58 @@
+@import '../../resources/assets/scss/loader';
+.push {
+  display: flex;
+  align-items: center;
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    &--block {
+      width: 100%;
+    }
+  }
+  &__control {
+    width: 70px;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    background: #d8d8d8;
+    cursor: pointer;
+    &-off,
+    &-on {
+      flex-basis: 50%;
+      color: #aeaeae;
+      font-size: em(12);
+      text: {
+        transform: uppercase;
+        align: center;
+      } // line-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &-active {
+      background: $RedViolet;
+      color: white;
+    }
+  }
+  &__label {
+    color: $WaikawaGray;
+    font-size: em(14); // margin-bottom: 6px;
+    margin-top: 2px;
+    display: block;
+    font-family: $arialMT;
+    &--space-right {
+      margin-right: 10px;
+    }
+    &--lg {
+      font: {
+        size: em(18);
+        weight: bold;
+      }
+    }
+    &--sm {
+      font: {
+        size: em(12);
+      }
+    }
+  }
+}

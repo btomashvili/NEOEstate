@@ -1,0 +1,207 @@
+/* Button Component */
+
+@import '../../resources/assets/scss/loader';
+.button {
+  font-size: em(14);
+  font-family: $arialMT;
+  letter-spacing: -0.1px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  min-width: 124px;
+  background: #fff;
+  color: #000;
+  text-align: center;
+  text-decoration: none;
+  &__center-item {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  &--isLoading {
+    opacity: .5;
+    pointer-events: none;
+    position: relative;
+    color: transparent!important;
+    &-loader {
+      display: flex;
+      position: absolute;
+      top: calc(50% - 5px);
+      left: calc(50% - 20px);
+      &-dott {
+        @include dot-animation;
+        animation-delay: .1s;
+        margin: 0 5px;
+        &:first-child {
+          animation-delay: 0s;
+          margin: 0;
+        }
+        &:last-child {
+          animation-delay: .2s;
+          margin: 0;
+        }
+      }
+    }
+  }
+  &__col-child {
+    width: 100%;
+    margin-top: 22px;
+  }
+  &--form-group-item {
+    margin-top: 18px;
+    height: 37px;
+  }
+  &__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    &--download {
+      background: url('../../resources/assets/images/download.svg') no-repeat center;
+    }
+    &--upload-faq {
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      background: url('../../resources/assets/images/icons/upload-faq.svg') no-repeat center;
+    }
+    &--send {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url('../../resources/assets/images/icons/send-message-button.svg') no-repeat center;
+      &+span {
+        padding-top: 2px;
+      }
+    }
+    &--delete {
+      background: {
+        image: url('../../resources/assets/images/trashBin.svg');
+        repeat: no-repeat;
+        position: center;
+      }
+    }
+    &--delete-white {
+      background: {
+        image: url('../../resources/assets/images/whiteRubbishBin.svg');
+        repeat: no-repeat;
+        position: center;
+      }
+    }
+    &--attachment {
+      background: {
+        image: url('../../resources/assets/images/icons/attachment.svg');
+        repeat: no-repeat;
+        position: center;
+      }
+    }
+    &--send-email-white {
+      background: {
+        image: url('../../resources/assets/images/icons/send-email-white.svg');
+        repeat: no-repeat;
+        position: center;
+      }
+    }
+    &--reply-white {
+      background: transparent url('../../resources/assets/images/whiteReply.svg') no-repeat center;
+    }
+  }
+  &--no-background {
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+  &--text-wildblueyonder {
+    font-size: em(12);
+    padding-right: 0;
+    min-width: 80px;
+    color: $WildBlueYonder;
+  }
+  &--red-violet {
+    background: $RedViolet;
+    color: #fff;
+  }
+  &--wild-blue-yonder {
+    background: $WildBlueYonder;
+    color: #fff;
+  }
+  &--picton-blue {
+    background: #007bff;
+    color: #fff;
+  }
+  &--waikawa-gray {
+    background: $WaikawaGray;
+    color: #fff;
+  }
+  &--block {
+    width: 100%;
+  }
+  &--padding-lg {
+    padding: 9px 40px;
+  }
+  &--padding-xlg {
+    padding: 9px 68px;
+  }
+  &--padding-xsm {
+    padding: 6px 21px;
+  }
+  &--right-space {
+    margin-right: 15px;
+  }
+  &--xsm {
+    width: 101px;
+  }
+  &--lg {
+    font-size: em(16);
+    padding: 13px 15px;
+  }
+  &--download {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  &--flex {
+    display: flex;
+    &-center {
+      align-items: center;
+    }
+  }
+  &--padding-horisontal-sm {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+  &--rounded {
+    border-radius: 3px;
+  }
+}
+
+@keyframes stretch {
+  0% {
+    transform: scale(0.5);
+    background-color: #B5DDF0;
+  }
+  50% {
+    background-color: #CFE9F6;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #FFFFFF;
+  }
+}
+
+.steps__participants-registration {
+  .button {
+    @media screen and (max-width: 670px) and (min-width: 640px) {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      margin: 10px 0;
+    }
+    @media screen and (max-width: 335px) {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+.table-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+
+  &__circle {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #dddddd;
+    background: #fff;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 100ms linear;
+
+    &:hover {
+      border-color: #ccc;
+    }
+  }
+
+  &--gradient &__circle {
+    border-color: #c5c5c6;
+    background: #fefefe; /* Old browsers */
+    background: -moz-linear-gradient(top, #fefefe 0%, #d9d9d9 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #fefefe 0%,#d9d9d9 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #fefefe 0%,#d9d9d9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#d9d9d9',GradientType=0 ); /* IE6-9 */
+  }
+
+  &__input {
+    display: none;
+
+    &:checked + .table-checkbox__circle:before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      background-image: url('../../../assets/images/check-icon.svg');
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      &:hover {
+        border-color: #dddddd;
+      }
+    }
+  }
+}

@@ -1,0 +1,146 @@
+@import '../../resources/assets/scss/loader';
+.textarea {
+  display: flex;
+  &-wrapper {
+    &--block {
+      width: 100%;
+    }
+  }
+  &-multiple {
+    width: 100%;
+    &__label {
+      color: $WaikawaGray;
+      font-size: em(14);
+      margin-bottom: 6px;
+      display: block;
+      font-family: $arialMT;
+    }
+    &__content {
+      // width: 100%;
+      display: inline-flex;
+      &>* {
+        &:not(:last-child) {
+          margin-right: 11px;
+        }
+      }
+      &--required {
+        position: relative;
+        &:before {
+          content: "";
+          position: absolute;
+          right: 0;
+          display: block;
+          width: 6px;
+          height: 6px;
+          background: url(../../resources/assets/images/icons/required-star.svg)no-repeat center center;
+          top: -12px;
+        }
+      }
+    }
+  }
+  &__control {
+    flex-grow: 1;
+    margin: 0;
+    background-color: #ffffff;
+    border: none;
+    outline: none;
+    font-family: $arialMT;
+    padding: 11px;
+    font-size: em(14);
+    &-icon {
+      width: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: solid 1.4px #f4f3f3;
+    }
+  }
+  &--lg {
+    .textarea__control {
+      padding: 15px;
+      font-size: em(14);
+      font-family: $arialMT;
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: $Heather;
+      }
+      &::-moz-placeholder {
+        /* Firefox 19+ */
+        color: $Heather;
+      }
+      &:-ms-input-placeholder {
+        /* IE 10+ */
+        color: $Heather;
+      }
+      &:-moz-placeholder {
+        /* Firefox 18- */
+        color: $Heather;
+      }
+    }
+  }
+  &--has-shadow {
+    &-lg {
+      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
+    }
+    &-sm {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+  &--has-icon {}
+  &--dove-gray {
+    .textarea__control {
+      color: $DoveGray;
+    }
+  }
+  &--heather {
+    .textarea__control {
+      color: Heather;
+    }
+  }
+  &--block {
+    width: 100%;
+  }
+  &--centered {
+    .textarea__control {
+      text-align: center;
+    }
+  }
+  &__label {
+    color: $WaikawaGray;
+    font-size: em(14);
+    margin-bottom: 6px;
+    display: block;
+    font-family: $arialMT;
+  }
+  &--required {
+    position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      right: 0;
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: url(../../resources/assets/images/icons/required-star.svg)no-repeat center center;
+      top: -12px;
+    }
+  }
+  &__message {
+    display: none;
+    font-size: em(11);
+    color: $RedViolet;
+    margin: 12px 0 0 0;
+  }
+  &--rounded {
+    border-radius: 2px;
+    .textarea__control {
+      border-radius: 2px;
+    }
+  }
+  &--has-error {
+    &+.textarea__message {
+      display: block;
+    }
+    border: 1px solid $RedViolet;
+  }
+}

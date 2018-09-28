@@ -1,0 +1,32 @@
+@import '../../../resources/assets/scss/loader';
+.table-toolbar {
+  border-radius: 2.8px;
+  background-color: transparent;
+  margin: 17px 27px;
+  &__item {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle; //border-right: 0.7px solid #446985;
+    border-right: none;
+    height: 100%;
+    line-height: 32px;
+    margin-left: 5px;
+    position: relative;
+    &:first-child {
+      margin-left: 0;
+    }
+    &--right {
+      float: right; // padding-right: 20px;
+      display: flex;
+      align-items: center;
+    }
+    &--column {
+      flex-direction: column;
+    }
+    &--row-selector {
+      width: 46px;
+      line-height: 46px;
+      text-align: center;
+    }
+  }
+}

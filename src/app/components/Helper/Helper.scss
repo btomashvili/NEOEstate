@@ -1,0 +1,14 @@
+/* Helper Component */
+
+.connection-status {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 50px;
+  &--offline {
+    background-color: #cb1663;
+  }
+  &--online {
+    background-color: #73c82e;
+  }
+}

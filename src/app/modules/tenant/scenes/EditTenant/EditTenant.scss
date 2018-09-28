@@ -1,0 +1,16 @@
+.tenants-page {
+    padding-top: 20px;
+    
+    .react-datepicker__input-container {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width:900px){
+    .tenants-page {
+        .nav.nav-tabs {
+            flex-direction: column;
+        }
+    }
+ }

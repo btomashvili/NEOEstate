@@ -1,0 +1,24 @@
+/* Dashboard Layout Component */
+
+@import '../../../resources/assets/scss/loader';
+.dashboard-layout {
+  min-height: calc(100vh - 60px);
+  background-color: $dashboard-layout-bg;
+  padding-top: 60px;
+  &__container {
+    display: flex;
+    position: relative;
+  }
+  &__sidebar {
+    width: 163px;
+    position: fixed;
+    top: 60px;
+    height: calc(100vh - 60px);
+    left: 0;
+    background: $PrussianBlue;
+  }
+  &__content {
+    margin-left: auto;
+    width: calc(100% - 163px); // padding: 27px;
+  }
+}

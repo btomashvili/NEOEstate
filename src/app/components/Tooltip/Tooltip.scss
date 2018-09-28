@@ -1,0 +1,119 @@
+.has-tooltip {
+  position: relative;
+
+  &:before {
+      content: attr(data-tooltip);
+      position: absolute;
+      // border: 1px solid #24aae2;
+      border: 0px solid #24aae2;
+      min-width: 70px;
+      display: none;
+      right: 100%;
+      margin: 0 4px 0 0;
+      text-align: center;
+      white-space: nowrap;
+     // height: 18px;
+      height: auto;
+      margin-top: 3px;
+      background-color: #fff;
+      font-size: 16px;
+      // color: #24aae2;
+      color: #48555f;
+      line-height: 18px;
+      padding: 25%;
+      border-radius: 2.8px;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.17);
+      pointer-events: none;
+      z-index: 100;
+      top: 50%;
+      margin-top: -10px;
+    }
+
+    &:after {
+      width: 4px;
+      height: 4px;
+      transform: rotate(45deg);
+      position: absolute;
+      content: '';
+      right: 100%;
+      margin-right: 2px;
+      background-color: #fff;
+      border-top: 1px solid #24aae2;
+      border-right: 1px solid #24aae2;
+      display: none;
+      pointer-events: none;
+      z-index: 101;
+      top: 50%;
+      margin-top: -2px;
+    }
+
+    &:hover:before, &:hover:after {
+      display: block;
+    }
+
+    &.has-tooltip--top {
+      &:before {
+        bottom: 100%;
+        margin: 0 0 4px 0;
+        right: initial;
+        top: initial;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+
+      &:after {
+        bottom: 100%;
+        right: initial;
+        top: initial;
+        left: 50%;
+        margin-left: -3.52px;
+        transform: rotate(130deg);
+        margin-bottom: 2px;
+      }
+    }
+
+    &.has-tooltip--right {
+      &:before {
+        left: 100%;
+        right: initial;
+        margin: 0 0 0 4px;
+        margin-top: 3px;
+        text-align: left;
+        top: 50%;
+        margin-top: -10px;
+      }
+
+      &:after {
+        right: initial;
+        left: 100%;
+        transform: rotate(-130deg);
+        margin-left: 2px;
+        top: 50%;
+        margin-top: -2px;
+      }
+    }
+
+    &.has-tooltip--bottom {
+      &:before {
+        top: 100%;
+        margin: 0 0 4px 0;
+        right: initial;
+        bottom: initial;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 3px;
+        text-align: center;
+      }
+
+      &:after {
+        top: 100%;
+        right: initial;
+        bottom: initial;
+        left: 50%;
+        margin-left: -4px;
+        transform: rotate(-45deg);
+        margin-top: 0px;
+      }
+    }
+}

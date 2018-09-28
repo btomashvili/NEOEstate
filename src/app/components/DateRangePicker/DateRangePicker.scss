@@ -1,0 +1,24 @@
+.date-range-picker {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+
+  &__body {
+    margin-top: 7px;
+    position: absolute;
+    min-width: 500px;
+    background-color: transparent;
+    z-index: 40;
+    &--right{
+      right:-10px;
+    }
+  }
+
+  .react-datepicker {
+    vertical-align: top;
+
+    &:not(:first-child) {
+      margin-left: 7px;
+    }
+  }
+}

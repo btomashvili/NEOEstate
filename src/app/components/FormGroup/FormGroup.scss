@@ -1,0 +1,143 @@
+/* From Group Component */
+
+@import '../../resources/assets/scss/loader';
+.form-group {
+  &--centered {
+    max-width: 310px;
+    margin: auto;
+  }
+  &--space-top-md {
+    margin-top: 38px;
+  }
+  &--half {
+    width: 50%;
+  }
+  &__row {
+    margin: 6.5px 0;
+    display: inline-flex;
+    width: 100%;
+    &--md {
+      max-width: 750px;
+    }
+    &--space-vertical {
+      margin: 40px 0;
+    }
+    &--reversed {
+      flex-direction: row-reverse;
+    }
+    &--centered {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    &--space-between {
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &--multiple {
+      &>*:not(:last-child) {
+        margin-right: 21px;
+      }
+    }
+    &--space-top {
+      margin-top: 80px;
+      &-sm {
+        margin-top: 36px;
+      }
+    }
+    &--no-flex {
+      display: inline-block;
+      width: 100%;
+      .form-group__col {
+        float: left;
+        width: calc(50% - 10px);
+      }
+    }
+    &--column {
+      flex-direction: column;
+    }
+  }
+  &__col {
+    flex-grow: 1;
+    max-width: calc(50% - 10px);
+    &:not(:last-child) {
+      margin-right: 19px;
+    }
+    &--download {
+      padding-top: 30px;
+    }
+    &--full-width {
+      max-width: calc((100% * 4) / 4);
+    }
+    &--is-three-quarters {
+      max-width: calc((100% * 3) / 4 - 10px);
+    }
+    &--is-half {
+      max-width: calc((100% * 1) / 2 - 10px);
+    }
+    &--is-one-third {
+      max-width: calc((100% * 1) / 3 - 10px);
+    }
+    &--is-one-quarter {
+      max-width: calc((100% * 1) / 4 - 10px);
+    }
+  }
+  &__heading {
+    font-family: $arialMT;
+    margin-bottom: 28px;
+    font-size: em(16);
+    &--lg {
+      font-size: em(24);
+      margin-bottom: 40px;
+    }
+    &--prussian-blue {
+      color: $PrussianBlue;
+    }
+    &--waikawa-gray {
+      color: $WaikawaGray;
+    }
+    &--has-icon {
+      display: flex;
+      align-items: center;
+      &:after {
+        content: '';
+        display: block;
+        width: 9px;
+        height: 9px;
+        background: url(../../resources/assets/images/icons/heading-icon.svg)no-repeat center center;
+        background-size: auto 100%;
+        margin-left: 12px;
+      }
+      &.form-group__heading--lg {
+        &:after {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+}
+
+.steps__participants-registration {
+  .form-group__row {
+    @media screen and (max-width: 920px) {
+      display: block;
+    }
+  }
+  .form-group__row--centered {
+    @media screen and (max-width: 920px) {
+      text-align: center;
+    }
+  }
+  .form-group__col {
+    @media screen and (max-width: 920px) {
+      max-width: none;
+    }
+  }
+  .form-group__col {
+    @media screen and (max-width: 920px) {
+      margin-right: 0;
+    }
+  }
+}

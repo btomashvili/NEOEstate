@@ -1,0 +1,11 @@
+.Select-clear::before {
+    /* display: inline-block; */
+    /* font-size: 18px; */
+    /* line-height: 1; */
+    content: 'x';
+    width: 28px;
+    height: 30px;
+    top: 9px;
+    right: 0;
+    position: absolute;
+}

@@ -1,0 +1,54 @@
+.register-page {
+    padding-top: 60px;
+
+    .card-body {
+        padding: 15px;
+    }
+
+    input[type=checkbox]{
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+    
+    label.switch {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 52px;
+        height: 22px;
+        background: grey;
+        border-radius: 100px;
+        position: relative;
+
+        &.readonly {
+            pointer-events: none!important;
+            background: #cccccc!important;
+        }
+    }
+    
+    label.switch:after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 28px;
+        transition: 0.3s;
+    }
+    
+    input:checked + label.switch {
+        background: #007aff;
+    }
+    
+    input:checked + label.switch:after {
+        left: calc(100% - 1px);
+        transform: translateX(-100%);
+    }
+    
+    label.switch:active:after {
+        width: 130px;
+    }
+
+}

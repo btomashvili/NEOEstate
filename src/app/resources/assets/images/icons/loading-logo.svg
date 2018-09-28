@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="96" viewBox="0 0 88 96" class="loading">
+    <style>
+.loading .path:first-child {
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+  -webkit-animation-name: path1;
+          animation-name: path1;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.loading .path:nth-child(2) {
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+  -webkit-animation-name: path2;
+          animation-name: path2;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.loading .path:nth-child(3) {
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+  -webkit-animation-name: path3;
+          animation-name: path3;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.loading .path:nth-child(4) {
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+  -webkit-animation-name: path4;
+          animation-name: path4;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes path1 {
+  0% {
+    fill: #00ADEF;
+  }
+  25% {
+    fill: #002B55;
+  }
+  50% {
+    fill: #88ABCB;
+  }
+  75% {
+    fill: #E60D64;
+  }
+  100% {
+    fill: #00ADEF;
+  }
+}
+
+@-webkit-keyframes path2 {
+  0% {
+    fill: #E60D64;
+  }
+  25% {
+    fill: #00ADEF;
+  }
+  50% {
+    fill: #002B55;
+  }
+  75% {
+    fill: #88ABCB;
+  }
+  100% {
+    fill: #E60D64;
+  }
+}
+
+@-webkit-keyframes path3 {
+  0% {
+    fill: #88ABCB;
+  }
+  25% {
+    fill: #E60D64;
+  }
+  50% {
+    fill: #00ADEF;
+  }
+  75% {
+    fill: #002B55;
+  }
+  100% {
+    fill: #88ABCB;
+  }
+}
+
+@-webkit-keyframes path4 {
+  0% {
+    fill: #002B55;
+  }
+  25% {
+    fill: #00ADEF;
+  }
+  50% {
+    fill: #88ABCB;
+  }
+  75% {
+    fill: #E60D64;
+  }
+  100% {
+    fill: #002B55;
+  }
+}
+</style>
+    <g fill="none" fill-rule="evenodd">
+        <path class="path" fill="#00ADEF" d="M28.752 0h.056A5347.959 5347.959 0 0 1 46.77 18.247a1993.38 1993.38 0 0 1-9.775 9.926C30.999 22.078 24.997 15.99 19 9.896c3.248-3.3 6.489-6.61 9.751-9.896M44.364 74.591c3.262-3.313 6.513-6.636 9.763-9.957 6.532 6.495 13.04 13.017 19.566 19.518-3.25 3.298-6.49 6.609-9.753 9.895h-.051c-6.538-6.453-13.007-12.98-19.525-19.456"/>
+        <path class="path" fill="#E60D64" d="M48.79 22.677c6.216-6.309 12.425-12.625 18.645-18.929 3.254 3.318 6.524 6.616 9.775 9.94C70.989 20 64.778 26.322 58.55 32.627c-3.277-3.292-6.487-6.653-9.76-9.95M13.474 78.376c9.093-9.34 18.228-18.635 27.329-27.964 3.262 3.311 6.526 6.622 9.784 9.937-9.098 9.33-18.225 18.628-27.326 27.952-3.272-3.298-6.52-6.623-9.787-9.925"/>
+        <path class="path" fill="#88ABCB" d="M5.438 23.36c3.263-3.309 6.523-6.618 9.78-9.931 4.638 4.716 9.216 9.492 13.868 14.194-2.414 2.528-4.898 4.987-7.341 7.488-.83.822-1.62 1.69-2.483 2.48-1.606-1.77-3.35-3.402-4.973-5.154-2.964-3.012-5.902-6.047-8.85-9.076M45.04 46.744c3.254-3.318 6.48-6.667 9.772-9.948 10.909 11.086 21.824 22.162 32.733 33.247-3.26 3.31-6.48 6.66-9.758 9.953C66.867 68.918 55.956 57.83 45.04 46.744"/>
+        <path class="path" fill="#002B55" d="M61.846 36.226c4.352-4.413 8.7-8.833 13.05-13.249 3.26 3.31 6.52 6.621 9.778 9.932-4.333 4.427-8.695 8.824-13.03 13.251-3.287-3.29-6.535-6.621-9.798-9.934M33.011 31.5c3.27 3.306 6.532 6.619 9.787 9.939C31.782 52.63 20.76 63.819 9.741 75.01 6.496 71.707 3.234 68.421 0 65.106v-.06C10.988 53.848 22.017 42.691 33.011 31.5"/>
+    </g>
+</svg>
+ 

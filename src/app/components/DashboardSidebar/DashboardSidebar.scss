@@ -1,0 +1,64 @@
+/* DashboardSidebar Componet */
+
+@import '../../resources/assets/scss/loader';
+.dashboard-sidebar {
+  &__scroll {
+    height: calc(100vh - 60px);
+  }
+  &__list {
+    &-item {
+      border-bottom: 1px solid #002f5f;
+      &-link,
+      &-button {
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        padding: 16px 20px;
+        padding-top: 30px;
+        font-size: em(14);
+        text-decoration: none;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.5;
+        letter-spacing: -0.1px;
+        img {
+          margin: 8px;
+          @include browser(Firefox) {
+            margin: auto;
+            margin-bottom: 10px;
+          }
+        }
+        &.active {
+          background-color: #0f355c;
+        }
+      }
+      &:last-child {
+        margin: 110px 0;
+        border: none;
+        img {
+          margin-bottom: 14px;
+        }
+      }
+      &-button {
+        background: transparent;
+        width: 100%;
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .dashboard-layout__sidebar {
+    width: 5rem !important;
+  }
+  .dashboard-sidebar__list-item-text {
+    display: none;
+  }
+  .dashboard-layout__content {
+    width: calc(100% - 5rem) !important;
+  }
+}

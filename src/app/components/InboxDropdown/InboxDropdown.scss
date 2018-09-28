@@ -1,0 +1,108 @@
+/* InboxDropdown Component */
+
+@import '../../resources/assets/scss/loader';
+.inbox-dropdown {
+  position: absolute;
+  display: none;
+  top: 100%;
+  z-index: 5;
+  width: 163px;
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+  margin-top: 1px;
+  @media(max-width: 730px) {
+    width:100%;
+  }
+  &__user-status {
+    position: absolute;
+    bottom: 3px;
+    left: 70%;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border: 1px solid #f8f8f8;
+    border-radius: 50px;
+    &--online {
+      background: #7ed321;
+    }
+    &--offline {
+      background: #aeaeae;
+    }
+  }
+  &__heading {
+    font-family: $arialMT;
+    font-size: em(9);
+    letter-spacing: 0px;
+    color: #b2bfcc;
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    border-bottom: solid 1px #f4f3f3;
+  }
+  &__avatar {
+    width: 31px;
+    height: 31px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50px;
+    img {
+      width: 100%;
+      border-radius: 50px;
+    }
+  }
+  &__content {
+    float: left;
+    overflow: hidden;
+    margin-left: 9px;
+    width: calc(100% - 40px);
+    &-user {
+      font-family: $arialMT;
+      font-size: em(10);
+      font-weight: bold;
+      letter-spacing: 0px;
+      color: #5b6887;
+      padding: 2px 0;
+    }
+    &-msg {
+      font-family: $arialMT;
+      font-size: em(8);
+      letter-spacing: 0px;
+      color: #7f8fb2;
+      padding: 3px 0;
+    }
+  }
+  &__list {
+    &-item {
+      overflow: hidden;
+      padding: 9px;
+      cursor: pointer;
+      transition: background 0.4s;
+      &:hover {
+        background: #fafafa;
+      }
+      &:not(:last-child) {
+        border-bottom: solid 1px #f4f3f3;
+      }
+    }
+  }
+  &__see-all {
+    background-color: #7f8fb2;
+    font-family: $arialMT;
+    font-size: em(12);
+    font-weight: bold;
+    letter-spacing: -0.1px;
+    text-align: center;
+    color: #ffffff;
+    display: block;
+    padding: 9px;
+    text-decoration: none;
+  }
+  &__scroll {
+    height: 200px;
+  }
+  &--visible {
+    display: block;
+  }
+}

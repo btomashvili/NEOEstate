@@ -1,0 +1,46 @@
+/* Home Header Component */
+
+@import '../../resources/assets/scss/loader';
+.home-header {
+  background: $home-header-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 330px;
+  @media(max-width: 730px) {
+    height: 200px;
+  }
+  >img {
+    @media(max-width: 730px) {
+      display: none;
+    }
+  }
+  &__info {
+    width: 295px;
+    margin-right: 115px;
+    @media(max-width: 730px) {
+      margin:0 15px;
+    }
+    &-name {
+      font-size: em(24);
+      color: $home-header-name-color;
+      font-family: $ariaBoldlMT;
+    }
+    &-title {
+      font-size: em(20);
+      color: $home-header-title-color;
+      margin-top: em(6);
+    }
+    &-description {
+      font-size: em(14);
+      color: $home-header-description-color;
+      margin-top: em(38);
+      letter-spacing: -0.1px;
+      text-align: justify;
+      line-height: em(19);
+      @media(max-width: 730px) {
+        display: none;
+      }
+    }
+  }
+}

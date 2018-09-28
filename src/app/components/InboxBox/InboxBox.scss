@@ -1,0 +1,206 @@
+/* InboxBoxComponent*/
+
+@import '../../resources/assets/scss/loader';
+.inbox-box {
+  &__no-content {
+    height: calc(100vh - 400px);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #cacaca;
+    font-size: em(20);
+  }
+  &__load-more {
+    ;
+    float: right;
+    background-color: $WildBlueYonder;
+    font-family: $arialMT;
+    font-size: em(14);
+    letter-spacing: -0.1px;
+    text-align: left;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 28px;
+    margin: 15px 0;
+    line-height: em(15);
+  }
+  &__item {
+    display: flex;
+    background-color: #ffffff;
+    box-shadow: 0 2px 11px 0 rgba(0, 0, 0, 0.08);
+    margin-bottom: 8px;
+    cursor: pointer;
+    &--is-read {
+      background-color: rgba(229, 234, 242, 0.92);
+    }
+    &:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.09);
+    }
+    &-avatar {
+      padding-left: 27px;
+      img {
+        border-radius: 50px;
+        margin: 17px 0;
+      }
+      position: relative;
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border: 1px solid #fff;
+        border-radius: 50px;
+        left: 8px;
+        top: 30px;
+      }
+      &--clear-status {
+        &:before {
+          display: none !important;
+        }
+      }
+      &--offline {
+        &::before {
+          background-color: #cb1663;
+        }
+      }
+      &--online {
+        &::before {
+          background-color: #73c82e;
+        }
+      }
+    }
+    &-content {
+      flex-grow: 1;
+      padding: 11px;
+      padding-bottom: 0;
+    }
+    &-right {
+      text-align: right;
+      width: 200px;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      &--center {
+        justify-content: center;
+      }
+    }
+    &-subject {
+      font-family: $arialMT;
+      font-size: em(12);
+      color: $WaikawaGray;
+      span {
+        font-family: $ariaBoldlMT;
+        text-transform: uppercase;
+      }
+    }
+    &-text {
+      padding: 9px 0px;
+      font-family: $arialMT;
+      font-size: em(12);
+      color: $WaikawaGray;
+      span {
+        font-weight: bold;
+      }
+    }
+    &-time {
+      font-family: $arialMT;
+      font-size: em(12);
+      letter-spacing: -0.1px;
+      margin: 17.5px;
+      text-align: right;
+      color: $PictonBlue;
+    }
+    &-date {
+      font-family: $arialMT;
+      font-size: em(12);
+      letter-spacing: -0.1px;
+      margin: 17.5px;
+      text-align: right;
+      color: $PictonBlue;
+    }
+    &-delete {
+      display: block;
+      width: 17px;
+      height: 22px;
+      background: transparent url('../../resources/assets/images/icons/inbox-delete.svg');
+      border: none;
+      outline: none;
+      cursor: pointer;
+      margin: 0 17.5px;
+    }
+    &-footer {
+      margin-bottom: 7px;
+    }
+    &-reply {
+      display: block;
+      padding-left: 20px;
+      background: transparent url('../../resources/assets/images/icons/reply.svg') no-repeat left top;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: $arialMT;
+      font-size: em(12);
+      letter-spacing: -0.1px;
+      color: $WaikawaGray;
+    }
+  }
+}
+
+.all-inbox {
+  &__wrapper {
+    padding: 44px;
+    height: auto; // width: 100%;
+    // max-width: 806px;
+    display: flex;
+    flex-direction: column;
+    .empty-inbox {
+      font: {
+        weight: bold;
+        family: $arialMT;
+        size: em(16);
+      }
+      color: $PrussianBlue;
+    }
+  }
+  &__heading {
+    margin-bottom: 28px;
+    font: {
+      weight: bold;
+      family: $arialMT;
+      size: em(16);
+    }
+    &--lg {
+      font-size: em(24);
+      margin-bottom: 40px;
+    }
+    &--prussian-blue {
+      color: $PrussianBlue;
+    }
+    &--waikawa-gray {
+      color: $WaikawaGray;
+    }
+    &--has-icon {
+      display: flex;
+      align-items: center;
+      &:after {
+        content: '';
+        display: block;
+        width: 9px;
+        height: 9px;
+        background: url(../../resources/assets/images/icons/heading-icon.svg)no-repeat center center;
+        background-size: auto 100%;
+        margin-left: 12px;
+      }
+      &.form-group__heading--lg {
+        &:after {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+}

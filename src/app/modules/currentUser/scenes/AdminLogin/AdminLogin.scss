@@ -1,0 +1,61 @@
+@import '../../../../resources/assets/scss/loader';
+
+.admin-login {
+  .form-group {
+    flex-basis: 35%;
+  }
+  &__wrapper {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+  }
+  &__heading {
+    margin-bottom: 28px;
+    font: {
+      weight: bold;
+      family: $arialMT;
+      size: em(16);
+    }
+    &--lg {
+      font-size: em(24);
+      margin-bottom: 40px;
+    }
+    &--prussian-blue {
+      color: $PrussianBlue;
+    }
+    &--waikawa-gray {
+      color: $WaikawaGray;
+    }
+    &--has-icon {
+      display: flex;
+      align-items: center;
+      &:after {
+        content: '';
+        display: block;
+        width: 9px;
+        height: 9px;
+        background: url(../../../../resources/assets/images/icons/heading-icon.svg)no-repeat center center;
+        background-size: auto 100%;
+        margin-left: 12px;
+      }
+      &.form-group__heading--lg {
+        &:after {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+  &__flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__icon {
+    width: 403px;
+    height: 403px;
+    margin-left: 85px;
+    background: url('../../../../resources/assets/images/illust-login.svg') no-repeat center;
+  }
+}

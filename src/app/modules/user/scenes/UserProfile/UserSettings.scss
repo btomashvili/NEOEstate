@@ -1,0 +1,70 @@
+@import '../../../../resources/assets/scss/loader';
+
+.profile-page {
+  padding-top: 20px;
+}
+
+.user-profile {
+  background: white;
+  padding: 59px 65px 59px 65px;
+  display: table;
+  width: 100%;
+  max-width: 750px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  .form-group {
+    flex-basis: 50%;
+  }
+  &__wrapper {
+      padding: 44px 27px;
+      height: auto;
+  }
+  &__heading {
+    margin-bottom: 28px;
+    font: {
+      weight: bold;
+      family: $arialMT;
+      size: em(16);
+    }
+    &--lg {
+      font-size: em(24);
+      margin-bottom: 40px;
+    }
+    &--prussian-blue {
+      color: $PrussianBlue;
+    }
+    &--waikawa-gray {
+      color: $WaikawaGray;
+    }
+    &--has-icon {
+      display: flex;
+      align-items: center;
+      &:after {
+        content: '';
+        display: block;
+        width: 9px;
+        height: 9px;
+        background: url(../../../../resources/assets/images/icons/heading-icon.svg)no-repeat center center;
+        background-size: auto 100%;
+        margin-left: 12px;
+      }
+      &.form-group__heading--lg {
+        &:after {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+  &--center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  &__icon {
+    width: 276px;
+    height: 280px;
+    // border-radius: 100%;
+    margin-left: 85px;
+    // background: url('../../../../resources/assets/images/userProfile.png') no-repeat center;
+  }
+}

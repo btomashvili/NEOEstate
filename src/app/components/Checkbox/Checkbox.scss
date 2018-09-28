@@ -1,0 +1,40 @@
+/* Checkbox Component*/
+
+@import '../../resources/assets/scss/loader';
+.checkbox {
+  cursor: pointer;
+  display: inline-block;
+  &__input {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: 1px solid $Mercury;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input {
+      cursor: pointer;
+      opacity: 0;
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
+    &--checked {
+      &:before {
+        content: '';
+        width: 10px;
+        height: 8px;
+        background: url(../../resources/assets/images/icons/checked.svg) no-repeat center;
+        display: block;
+        position: absolute;
+        @include browser(Firefox) {
+          top: 6px;
+          left: 5px;
+        }
+      }
+    }
+  }
+  &__label {}
+}

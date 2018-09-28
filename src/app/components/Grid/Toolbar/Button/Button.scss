@@ -1,0 +1,81 @@
+  @import '../../../../resources/assets/scss/loader';
+  .toolbar-button {
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
+    height: 32px;
+    background: #fff;
+    cursor: pointer;
+    padding: 0 20px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    &--filter {
+      &.toolbar-button--active {
+        background: $WildBlueYonder;
+        &:before {
+          content: "";
+          position: absolute;
+          left: 6px;
+          top: 100%;
+          width: 0;
+          height: 0;
+          border-left: 3px solid transparent;
+          border-top: 2px solid $WildBlueYonder;
+          border-right: 3px solid transparent;
+        }
+        * {
+          color: #fff;
+        }
+      }
+    }
+    &--sm {
+      padding: 0 10px;
+    }
+    &__icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      text-align: center;
+      font-style: normal;
+    }
+    &__label {
+      vertical-align: bottom;
+      font-size: em(11);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $WaikawaGray;
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+    &--blue {
+      background: $PictonBlue;
+      .toolbar-button__label {
+        color: #fff;
+      }
+    }
+    &--red {
+      background: $RedViolet;
+      .toolbar-button__label {
+        color: #fff;
+      }
+    }
+    &__icon+&__label {
+      margin-left: 10px;
+    }
+    &:disabled {
+      cursor: default;
+      opacity: .5;
+      pointer-events: none;
+    }
+  }
+
+  button.toolbar-button {
+    .toolbar-button__label {
+      font-size: em(15);
+    }
+  }

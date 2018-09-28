@@ -1,0 +1,14 @@
+.cell-link {
+  display: inline-block;
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  color: #5d5d5d;
+  &:hover {
+    color: #24aae2;
+    text-decoration: underline;
+  }
+}

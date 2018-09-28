@@ -1,0 +1,110 @@
+
+.tenants-page {
+    padding-top: 20px;
+    .card {
+        h4 {
+            margin-bottom: 0;
+        }
+        .card-body {
+            padding: 0;
+        }
+    }
+    .data-label {
+        padding-right: .5em;
+        font-weight: bold;
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+    }
+
+    .list-group-item {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .report-btn {
+        margin-right: 10px;
+    }
+
+    .in-progress {
+        margin-top: 8px;
+    }
+
+    .asterisk:before {
+        margin-left: 5px;
+        font-variant-position: super;
+        content:"*";
+        color:red;            
+    }
+
+    input[type=checkbox]{
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+    
+    label.switch {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 52px;
+        height: 22px;
+        background: grey;
+        border-radius: 100px;
+        position: relative;
+
+        &.readonly {
+            pointer-events: none!important;
+            background: #cccccc!important;
+        }
+    }
+    
+    label.switch:after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 28px;
+        transition: 0.3s;
+    }
+    
+    input:checked + label.switch {
+        background: #007aff;
+    }
+    
+    input:checked + label.switch:after {
+        left: calc(100% - 1px);
+        transform: translateX(-100%);
+    }
+    
+    label.switch:active:after {
+        width: 130px;
+    }
+
+    .card-header {
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px) {
+        .card-header h4 {
+            font-size: 14px
+        }
+
+        .card-header .report-btn {
+            font-size: 12px;
+            height: 25px;
+        }
+
+        .card-header .btn-group {
+            height: 25px;
+        }
+    }
+
+
+
+}
