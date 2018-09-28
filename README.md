@@ -1,15 +1,6 @@
+# NEO-Hackathon-Front Readme
 
-# WalkThru-Front Readme
-
-Quick Start
------------
-
-```shell
-$ git clone https://github.com/ShowMojo/mywalkthru-frontend.git
-$ cd mywalkthru-frontend
-$ npm install
-$ npm start
-```
+Executing transfer of real property between buyer and seller including the registration of the transfer with government registry
 
 Commands
 --------
