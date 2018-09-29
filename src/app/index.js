@@ -2,7 +2,7 @@
 /* eslint no-undef: 0 */
 /* eslint import/extensions: 0 */
 /* eslint react/jsx-filename-extension:0 */
-Raven.config('https://c692b828ba8f4616a29725814b60cbf8@sentry.io/262612').install()
+// Raven.config('https://c692b828ba8f4616a29725814b60cbf8@sentry.io/262612').install()
 
 import 'babel-polyfill'
 import 'bootstrap-social'

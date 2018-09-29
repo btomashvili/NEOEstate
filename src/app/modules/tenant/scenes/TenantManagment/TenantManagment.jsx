@@ -92,7 +92,6 @@ class TenantManagment extends Component {
   }
 
   showSellModal(item) {
-    console.log('reset')
     this.setState({ isSellModalVisible: true, order: { property: item.toJS() } })
   }
   closeSellModal(item) {
@@ -129,7 +128,7 @@ class TenantManagment extends Component {
     // .then((script) => {
     //   // alert(`Test invoke script: ${script} `)
     //   console.log('script', script)
-    // }) 
+    // })
     // .catch((err) => {
     //   alert(`Error: ${err.message}`)
     //   console.log('error', err)
@@ -181,25 +180,51 @@ class TenantManagment extends Component {
 
   transfer() {
     const { order } = this.state
+    if (!order.to || !order.amount) {
+      return
+    }
     const { dispatch } = this.props
-    this.closeSellModal()
     dispatch(transferPropertyRequest(order))
+    this.closeSellModal()
   }
 
-  renderBody(item) {
+  renderBody(item, offer) {
     console.log(this.state.cards, item.get('_id'), this.state.cards[item.get('_id')])
     if (!this.state.cards[item.get('_id')]) {
       return null
     }
 
+    const isOffer = !!offer
+
     return (
       <div className="card-body">
         <ul className="list-group">
-          <li className="list-group-item">
-            <span className="data-label">Status:</span>
-            {this.renderStatus(item)}
-          </li>
+          {!isOffer && (
+            <li className="list-group-item">
+              <span className="data-label">Status:</span>
+              {this.renderStatus(item)}
+            </li>
+          )}
+          {isOffer && (
+            <li className="list-group-item list-group-item-info">
+              <span className="data-label">Status:</span>
+              {offer.get('status')}
+            </li>
+          )}
 
+
+          {isOffer && (
+            <li className="list-group-item list-group-item-info">
+              <span className="data-label">price:</span>
+              {offer.get('price')} ({offer.get('paymentType')})
+            </li>
+          )}
+          {isOffer && (
+            <li className="list-group-item list-group-item-info">
+              <span className="data-label">from:</span>
+              {offer.get('from')}
+            </li>
+          )}
 
           <li className="list-group-item">
             <span className="data-label">number:</span>
@@ -279,41 +304,54 @@ class TenantManagment extends Component {
 
     return (
       <div className="modal-bg" >
-        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Transfer property</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form>
+        <form onSubmit={this.transfer.bind(this)}>
+
+          <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Transfer property</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
                   <div className="form-group">
                     <label>Wallet Address</label>
-                    <input type="text" className="form-control" onChange={this.updateOrderDetails('to').bind(this)} value={to} placeholder="Wallet Address" />
+                    <input type="text" className="form-control" required onChange={this.updateOrderDetails('to').bind(this)} value={to} placeholder="Wallet Address" />
                     <span style={{ marginTop: 5, marginLeft: 5, fontSize: 12 }} >
                     ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
                   </div>
                   <div className="form-group">
                     <label>Amount (NEO)</label>
-                    <input type="number" className="form-control" onChange={this.updateOrderDetails('amount').bind(this)} value={amount} placeholder="Enter amount..." />
+                    <input type="number" className="form-control" required onChange={this.updateOrderDetails('amount').bind(this)} value={amount} placeholder="Enter amount..." />
                   </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary" onClick={this.transfer.bind(this)} >Sell</button>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
+                  <button type="submit" className="btn btn-primary" >Sell</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     )
   }
 
   renderProperties() {
+    if (!this.props.items.size) {
+      return (
+        <div className="row">
+          <div className="col-md-12">
+            <div className="float-left">
+              <span>No Content</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div>
         <div className="row">
@@ -329,6 +367,7 @@ class TenantManagment extends Component {
             </div>
           </div>
           <div className="col-md-6">
+            {/*
             <Input
               className="form-control"
               value={this.props.searchText}
@@ -338,6 +377,7 @@ class TenantManagment extends Component {
               }}
               type="text"
             />
+            */}
           </div>
           <br />
           <div className="col-md-12">
@@ -372,10 +412,10 @@ class TenantManagment extends Component {
                       </h4>
                     </div>
                     <div className="float-right">
-                      <Link to={`#`} className="btn btn-icon btn-sm btn-default report-btn">
-                         <i className="fa fa-file-text" aria-hidden="true" />
+                      <Link to={'#'} className="btn btn-icon btn-sm btn-default report-btn">
+                        <i className="fa fa-file-text" aria-hidden="true" />
                          Transaction history
-                      </Link>  
+                      </Link>
                       <button
                         onClick={() => this.showSellModal(tenant)}
                         className={'btn btn-icon btn-sm btn-primary'}
@@ -398,6 +438,18 @@ class TenantManagment extends Component {
   }
 
   renderOffers() {
+    if (!this.props.offers.size) {
+      return (
+        <div className="row">
+          <div className="col-md-12">
+            <div className="float-left">
+              <span>No Content</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div>
         <div className="row">
@@ -409,6 +461,7 @@ class TenantManagment extends Component {
             <div className="float-right" />
           </div>
           <div className="col-md-6">
+            {/*
             <Input
               className="form-control"
               value={this.props.searchText}
@@ -418,6 +471,7 @@ class TenantManagment extends Component {
               }}
               type="text"
             />
+            */}
           </div>
           <br />
           <div className="col-md-12">
@@ -449,6 +503,10 @@ class TenantManagment extends Component {
                     >
                       <h4>
                         <i className="fa fa-home" /> &nbsp;
+                        <button className={` btn btn-sm ${offer.get('status') === 'inprogress' ? 'btn-primary' : ''} ${offer.get('status') === 'confirmed' ? 'btn-success' : ''}`}>
+                          {offer.get('status')}
+                        </button>
+                        &nbsp;
                         <span>{offer.getIn(['propertyId', 'address'])} </span>
                       </h4>
                     </div>
@@ -466,7 +524,7 @@ class TenantManagment extends Component {
 
                     </div>
                   </div>
-                  {this.renderBody(offer.get('propertyId'))}
+                  {this.renderBody(offer.get('propertyId'), offer)}
                 </div>
                 <br />
               </div>
