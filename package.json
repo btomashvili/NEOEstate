@@ -78,6 +78,7 @@
     "webpack-dev-server": "^2.4.1"
   },
   "dependencies": {
+    "@nosplatform/api-functions": "0.4.2",
     "apisauce": "^0.10.0",
     "axios": "^0.16.2",
     "babel-polyfill": "^6.22.0",
