@@ -71,12 +71,33 @@ class MainLayout extends Component {
                   </li>
                 )}
               </ul>
+
+              <ul className="navbar-nav mr-auto">
+                {this.props.isLoggedIn && (
+                  <li className="nav-item">
+                    <span className="nav-link text-light" to="#">
+                      NEO: {this.props.currentUser.get('neo')}
+                    </span>
+                  </li>
+                )}
+              </ul>
+             
+              <ul className="navbar-nav mr-auto">
+                {this.props.isLoggedIn && (
+                  <li className="nav-item">
+                    <span className="nav-link text-light" to="#">
+                      GAS: {this.props.isLoggedIn && this.props.currentUser ? this.props.currentUser.get('gas') : ''}
+                    </span>
+                  </li>
+                )}
+              </ul>
              
 
               <div className="navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav mr-auto" />
                 <ul className="navbar-nav main-wrapper-dropdown" ref={dropdown => (this.dropdown = dropdown)}>
                   {this.props.isLoggedIn && (
+
                     <li
                       className="nav-item float-right main-wrapper-dropdown-li"
                       onClick={() => this.setState({ dropdown: !this.state.dropdown })}
@@ -84,29 +105,9 @@ class MainLayout extends Component {
                       <span className="main-wrapper-dropdown-email text-light">
                         {this.props.isLoggedIn && this.props.currentUser ? this.props.currentUser.get('email') : ''}
                       </span>
-                      <i className="fa fa-user-o main-wrapper-dropdown-logo text-light" aria-hidden="true" />
-                      <span className="main-wrapper-dropdown-logo-arrow" />
+                      <i className="fa fa-user-o main-wrapper-address-logo text-light" aria-hidden="true" />
+                      
                     </li>
-                  )}
-                  {this.state.dropdown && (
-                    <div className="main-wrapper-dropdown-content">
-                      <Link to="/profile" onClick={() => this.setState({ dropdown: false })}>
-                        Profile
-                      </Link>
-                      <Link to="/change-password" onClick={() => this.setState({ dropdown: false })}>
-                        Change password
-                      </Link>
-                      <a
-                        href="#"
-                        onClick={() => {
-                          this.setState({ dropdown: false })
-                          this.props.handlerLogOut()
-                        }}
-                      >
-                        {' '}
-                        Logout{' '}
-                      </a>
-                    </div>
                   )}
                 </ul>
               </div>
@@ -123,12 +124,8 @@ class MainLayout extends Component {
 }
 
 const mapStateToProps = state => ({
-  // currentUserAvatar: state.wizard.getIn(['socialMedia', 'data', 'picture']),
   currentUserId: state.currentUser.getIn(['data', 'id']),
   currentUser: state.currentUser.get('data'),
-  // wizardUserRole: state.wizard.getIn(['user', 'role']),
-  // inbox: state.inbox.getIn(['lookup', 'list']),
-  // listOfOnlineUsers: state.user.get('listOfOnlineUsers'),
 })
 
 const mapDispatchToProps = dispatch => ({})

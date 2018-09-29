@@ -38,17 +38,26 @@ class TenantManagment extends Component {
   }
 
   componentDidMount() {
-    this.runQuery(this.props)
+    //TODO: RUN QUERY TO GET properties with wallet address
+    // this.runQuery(this.props)
 
-    console.log('this.props.nos', this.props.nos)
-    // this.props.updateFieldValue('')
     this.props.nos.getAddress()
-      .then((e) => { 
-        // alert(e) 
+      .then((e) => {
         this.props.updateCurrentUserFieldValue('isLoggedIn', true)
         this.props.updateCurrentUserFieldValue('walletAddress', e)
         this.props.updateCurrentUserFieldValue('data.email', e)
       })
+    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)  
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
+     .then((e) => {
+       console.log('neo', e)
+       this.props.updateCurrentUserFieldValue('data.neo', e)
+     })
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
+     .then((e) => {
+       console.log('gas', e)
+       this.props.updateCurrentUserFieldValue('data.gas', e)
+     })
   }
 
   componentWillReceiveProps(nextProps) {

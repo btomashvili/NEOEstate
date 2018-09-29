@@ -2,40 +2,19 @@
 import { takeEvery, takeLatest } from 'redux-saga/effects'
 
 import * as currentUserSagas from './modules/currentUser/currentUserSagas'
-import * as commonSagas from './modules/common/commonSagas'
-
 import * as userSagas from './modules/user/userSagas'
 import * as tenantSagas from './modules/tenant/tenantSagas'
 import * as billingSagas from './modules/billing/billingSagas'
 import * as activitySagas from './modules/activity/activitySagas'
-
 import * as currentUserTypes from '../app/modules/currentUser/actions/currentUserTypes'
-import * as commonTypes from '../app/modules/common/actions/commonTypes'
 import * as userTypes from '../app/modules/user/actions/userTypes'
-
 import * as tenantTypes from '../app/modules/tenant/actions/tenantTypes'
 import * as billingTypes from '../app/modules/billing/actions/billingTypes'
 import * as activityTypes from '../app/modules/activity/actions/activityTypes'
 
 export default function* root() {
   yield [
-    takeEvery(commonTypes.PERMISSION_LOOKUP_LIST_REQUEST, commonSagas.permissionLookupListSaga),
-
-    // takeEvery(
-    //   commonTypes.ROLE_LOOKUP_LIST_REQUEST,
-    //   commonSagas.roleLookupListSaga
-    // ),
-
-    takeEvery(commonTypes.STATE_LOOKUP_LIST_REQUEST, commonSagas.stateLookupListSaga),
-
-    takeEvery(commonTypes.HOUSING_TYPES_LOOKUP_LIST_REQUEST, commonSagas.housingTypesListSaga),
-
-    takeEvery(commonTypes.LOCATION_LOOKUP_LIST_REQUEST, commonSagas.locationListSaga),
-
-    takeEvery(commonTypes.ROOM_TYPES_LOOKUP_LIST_REQUEST, commonSagas.roomTypesSaga),
-
-    takeEvery(commonTypes.GET_METRICS_REQUEST, commonSagas.getMetricsSaga),
-
+  
     takeLatest(currentUserTypes.USER_LOGIN_REQUEST, currentUserSagas.authSagas),
     takeLatest(currentUserTypes.USER_SIGNUP_REQUEST, currentUserSagas.signUpSaga),
     takeLatest(currentUserTypes.USER_FETCH_REQUEST, currentUserSagas.userFetchSagas),
@@ -47,19 +26,14 @@ export default function* root() {
     takeLatest(currentUserTypes.ACTIVE_USER_REQUEST, currentUserSagas.activeUserSaga),
     takeLatest(currentUserTypes.RESET_PASSWORD_REQUEST, currentUserSagas.resetPasswordSaga),
     takeLatest(currentUserTypes.RESET_PASSWORD_TOKEN_REQUEST, currentUserSagas.resetPasswordTokenSaga),
-
     takeEvery(userTypes.GET_REPORTING_DATA_REQUEST, userSagas.getReportingDataSaga),
     takeLatest(userTypes.GET_ADMIN_LIST_REQUEST, userSagas.getAdminListSaga),
     takeLatest(userTypes.ADD_ADMIN_REQUEST, userSagas.addAdminSaga),
-
-    // takeLatest(userTypes.ADD_USER_REQUEST, userSagas.addUserSaga),
     takeLatest(userTypes.EDIT_USER_REQUEST, userSagas.editUserSaga),
     takeLatest(userTypes.DELETE_USER_REQUEST, userSagas.deleteUserSaga),
     takeLatest(userTypes.VIEW_USER_REQUEST, userSagas.viewUserSaga),
     takeLatest(userTypes.USER_LIST_REQUEST, userSagas.userListSaga),
-
     takeLatest(userTypes.UPLOAD_USER_AVATAR_REQUEST, userSagas.uploadUserAvatarSaga),
-
     takeLatest(tenantTypes.TENANT_LIST_REQUEST, tenantSagas.tenantListSaga),
     takeLatest(tenantTypes.TENANT_ALL_LIST_REQUEST, tenantSagas.tenantAllListSaga),
     takeLatest(tenantTypes.LEASE_LIST_REQUEST, tenantSagas.leaseListSaga),
@@ -77,9 +51,7 @@ export default function* root() {
     takeLatest(tenantTypes.UPDATE_UNIT_REQUEST, tenantSagas.updateUnitSaga),
     takeLatest(tenantTypes.INPROGRESS_TENANT_REQUEST, tenantSagas.InProgressSaga),
     takeLatest(tenantTypes.GET_TENANT_BY_INVITE_CODE_REQUEST, tenantSagas.getTenantByInviteCodeSaga),
-
     takeLatest(billingTypes.PAY_REQUEST, billingSagas.paySaga),
-
     takeLatest(activityTypes.ACTIVITY_BY_KEY_REQUEST, activitySagas.getActivityByKey),
     takeLatest(activityTypes.ACTIVITY_DELETE_BY_KEY_REQUEST, activitySagas.deleteActivityByKey),
   ]
