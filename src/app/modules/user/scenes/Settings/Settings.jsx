@@ -15,11 +15,10 @@ import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 
 function hex2a(hexx) {
-  var hex = hexx.toString();//force conversion
-  var str = '';
-  for (var i = 0; (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)
-      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  return str;
+  const hex = hexx.toString()// force conversion
+  let str = ''
+  for (let i = 0; (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)    { str += String.fromCharCode(parseInt(hex.substr(i, 2), 16))}
+  return str
 }
 
 class SettingsScreen extends Component {
@@ -27,22 +26,53 @@ class SettingsScreen extends Component {
   constructor(props) {
     super(props)
     this.invoke = this.invoke.bind(this)
+    this.handleOperation = this.handleOperation.bind(this)
+    this.handleScriptHash = this.handleScriptHash.bind(this)
+    this.sendNEO = this.sendNEO.bind(this)
+
     this.state = {
       result: '',
+      resultScript: '',
       scriptHash: '',
       operation: '',
+
+      transferResult: '',
+      amount: '',
+      address: '',
     }
   }
 
+  sendNEO() {
+    this.setState({ transferResult: '' })
+    console.log('data =>>', this.state.amount, this.state.address)
+
+    const amount = String(this.state.amount)
+    const receiver = String(this.state.address)
+    const nos = window.NOS.V1
+    console.log('=>>', window.NOS)
+    const { GAS } = window.NOS.ASSETS
+
+    nos.send({ asset: GAS, amount, receiver })
+     .then(txid => {
+       alert(`${amount} GAS sent in transaction ${txid}`)
+       console.log('send =>>', txid)
+     })
+     .catch(err => {
+      alert(`Error: ${err.message}`)
+      console.log('err =>>', err)
+     })
+  }
+
   invoke() {
-    this.setState({ result: '' })
+    this.setState({ result: '', resultScript: '' })
 
     const nos = window.NOS.V1
     const { NEO, GAS } = window.NOS.ASSETS
 
-    // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
-    const scriptHash = '892a41e4f530845581c63ec9e703c564815b009e'
-    const operation = 'okaa'
+    const scriptHash = this.state.scriptHash
+    const operation = this.state.operation
+
+    console.log('data', scriptHash, operation)
     // const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
     const args = []
 
@@ -51,34 +81,38 @@ class SettingsScreen extends Component {
       [GAS]: '2.04950068',
     }
 
-    // nos.invoke({ scriptHash, operation, args, assets })
-    // .then((script) => {
-    //   // alert(`Test invoke script: ${script} `)
-    //   this.setState({ result: script })
-    //   console.log('script', script)
-    // })
-    // .catch((err) => {
-    //   // alert(`Error: ${err.message}`)
-    //   this.setState({ result: err.message })
-    //   console.log('error', err)
-    // })
-
-    nos.testInvoke({ scriptHash, operation, args, assets })
+    nos.invoke({ scriptHash, operation, args, assets })
     .then((script) => {
       // alert(`Test invoke script: ${script} `)
-      console.log('script', script.stack[0].value)
-      this.setState({ result: hex2a(script.stack[0].value ) })
+      this.setState({ result: script })
+      console.log('script', script)
     })
     .catch((err) => {
       // alert(`Error: ${err.message}`)
-      console.log('error', err)
       this.setState({ result: err.message })
+      console.log('error', err)
     })
+
+    // nos.testInvoke({ scriptHash, operation, args, assets })
+    // .then((script) => {
+    //   // alert(`Test invoke script: ${script} `)
+    //   console.log('script', script)
+    //   this.setState({ result: hex2a(script.stack[0].value), resultScript: JSON.stringify(script) })
+    // })
+    // .catch((err) => {
+    //   // alert(`Error: ${err.message}`)
+    //   console.log('error', err)
+    //   this.setState({ result: err.message })
+    // })
   }
 
-  // handleScriptHash(event) {
-  //   this.setState({ scriptHash : event.target.value});
-  // }
+  handleScriptHash(event) {
+    this.setState({ scriptHash: event.target.value })
+  }
+
+  handleOperation(event) {
+    this.setState({ operation: event.target.value })
+  }
 
   render() {
     return (
@@ -92,26 +126,77 @@ class SettingsScreen extends Component {
         <div className="row">
           <div className="col-md-5">
             <div>
-              {/* <FormGroupRow>
-                <Input
+              <FormGroupRow>
+                <input
                   className="form-control"
                   value={this.state.scriptHash}
                   placeholder="ScriptHash"
-                  onChange={(value) => {  }}
+                  onChange={this.handleScriptHash}
                   type="text"
                 />
-              </FormGroupRow> */}
+              </FormGroupRow>
+              <FormGroupRow>
+                <input
+                  className="form-control"
+                  value={this.state.operation}
+                  placeholder="Operation Name"
+                  onChange={this.handleOperation}
+                  type="text"
+                />
+              </FormGroupRow>
               <FormGroupRow>
                 <Button
                   type="submit"
                   className="button--block button--picton-blue  button--padding-lg"
                   onClick={this.invoke}
                 >
-                    Invoke
+                    Invoke Contract
                   </Button>
               </FormGroupRow>
               <FormGroupRow>
                 <label htmlFor="test"> {this.state.result}</label>
+              </FormGroupRow>
+              <FormGroupRow>
+                <label htmlFor="resultScript"> {this.state.resultScript}</label>
+              </FormGroupRow>
+            </div>
+
+            <div>
+              <FormGroupRow>
+                <span>ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
+              </FormGroupRow>
+              <FormGroupRow>
+                <input
+                  className="form-control"
+                  value={this.state.address}
+                  placeholder="Address"
+                  onChange={event => this.setState({ address: event.target.value })}
+                  type="text"
+                />
+              </FormGroupRow>
+              <FormGroupRow>
+                <input
+                  className="form-control"
+                  value={this.state.amount}
+                  placeholder="Amount"
+                  onChange={event => this.setState({ amount: event.target.value })}
+                  type="text"
+                />
+              </FormGroupRow>
+              <FormGroupRow>
+                <Button
+                  type="submit"
+                  className="button--block button--picton-blue  button--padding-lg"
+                  onClick={this.sendNEO}
+                >
+                    Send NEO
+                  </Button>
+              </FormGroupRow>
+              <FormGroupRow>
+                <label htmlFor="test"> {this.state.result}</label>
+              </FormGroupRow>
+              <FormGroupRow>
+                <label htmlFor="resultScript"> {this.state.resultScript}</label>
               </FormGroupRow>
             </div>
           </div>

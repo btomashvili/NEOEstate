@@ -37,35 +37,15 @@ class TenantManagment extends Component {
       isBodyVisible: false,
       cards: {},
       previousCard: null,
+      isSellModalVisible: false,
     }
   }
 
   componentDidMount() {
-
-     //TODO: RUN QUERY TO GET properties with wallet address
-     // this.runQuery(this.props)
-
-    
     this.props.nos.getAddress()
       .then((walletAddress) => {
-        // alert(e)
-        // this.props.updateCurrentUserFieldValue('isLoggedIn', true)
-        // this.props.updateCurrentUserFieldValue('walletAddress', walletAddress)
-        // this.props.updateCurrentUserFieldValue('data.email', walletAddress)
-
         this.runQuery(this.props)
       })
-    // console.log('window.NOS.ASSETS;', window.NOS.ASSETS)
-    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
-    //  .then((e) => {
-    //    console.log('neo', e)
-    //    this.props.updateCurrentUserFieldValue('data.neo', e)
-    //  })
-    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
-    //  .then((e) => {
-    //    console.log('gas', e)
-    //    this.props.updateCurrentUserFieldValue('data.gas', e)
-    //  })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,12 +74,20 @@ class TenantManagment extends Component {
     }, 30)
   }
 
+  showSellModal(item) {
+    console.log('reset')
+    this.setState({ isSellModalVisible: true })
+  }
+  closeSellModal(item) {
+    this.setState({ isSellModalVisible: false })
+  }
+
   deleteMessage(tenant) {
     showMessageBox({
       text: 'Are you sure you want to delete tenant?',
       icon: deleteConfirmIcon,
       confirmCallback: () => {
-        this.props.deleteTenantRequest(tenant.get('id'), tenant.get('lease'))
+        this.props.deleteTenantRequest(tenant.get('_id'), tenant.get('lease'))
       },
     })
   }
@@ -110,12 +98,12 @@ class TenantManagment extends Component {
   }
 
   invokeContract() {
-
     // alert('invoke')
-    const nos = window.NOS.V1;
+    const nos = window.NOS.V1
 
     // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
     const scriptHash = '5f47e23a39368551b1b66047aad0f3f843fea89e'
+    // const scriptHash = '4b7f81954214a90b54d56e12f42cb9ac46de020a'
     const operation = 'nika'
     const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
 
@@ -148,7 +136,7 @@ class TenantManagment extends Component {
     // }
   }
 
-  
+
   generateAddressForReport(tenant) {
     return `${tenant.getIn(['property', 'street'])}-${tenant.getIn(['property', 'city'])}-${tenant.getIn([
       'property',
@@ -157,11 +145,11 @@ class TenantManagment extends Component {
   }
 
   renderStatus = (tenant) => {
-    if (tenant.get('status') && tenant.get('status').toLowerCase() === 'submited') {
-      return <button className="btn btn-sm btn-success">Submitted </button>
+    if (tenant.get('status') && tenant.get('status').toLowerCase() === 'active') {
+      return <button className="btn btn-sm btn-success">Active </button>
     }
 
-    return <button className="btn btn-sm btn-primary">In Progress</button>
+    return <button className="btn btn-sm btn-primary">Under mortgage</button>
   }
 
   renderReportButtonStyle(submited) {
@@ -171,7 +159,7 @@ class TenantManagment extends Component {
   }
 
   handleCheckBox(tenant) {
-    const id = tenant.get('id')
+    const id = tenant.get('_id')
     const lease = tenant.get('lease')
     //  const inviteCode = tenant.get('inviteCode')
     // console.log('Lease Id ', lease)
@@ -180,18 +168,8 @@ class TenantManagment extends Component {
     this.props.inProgressRequest(id, lease)
   }
 
-  renderAutoSubmited = (tenant) => {
-    if (tenant.get('isAutoSubmited')) {
-      return (
-        <sup className="asterisk">
-          <sup style={{ fontSize: 9 }}> auto</sup>
-        </sup>
-      )
-    }
-  }
-
-  renderBody(tenant) {
-    if (!this.state.cards[tenant.get('lease')]) {
+  renderBody(item) {
+    if (!this.state.cards[item.get('_id')]) {
       return null
     }
 
@@ -200,25 +178,63 @@ class TenantManagment extends Component {
         <ul className="list-group">
           <li className="list-group-item">
             <span className="data-label">Status:</span>
-            {this.renderStatus(tenant)}
+            {this.renderStatus(item)}
           </li>
-          {/* { tenant.get('isAutoSubmited') && */}
+
+
+          <li className="list-group-item">
+            <span className="data-label">number:</span>
+            {item.get('number')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">title:</span>
+            {item.get('title')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">cadastral code:</span>
+            {item.get('cadastral')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">MAP Address:</span>
+            <a href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`} target="_blank" >View on Google map</a>
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">Registration Date:</span>
+            {moment(item.get('registrationDate')).format('DD-MMMM-YYYY')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">type:</span>
+            {item.get('type')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">address:</span>
+            {item.get('address')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">area:</span>
+            {item.get('area')} m<sup>2</sup>
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">link:</span>
+            {item.get('link')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">owner (Waller Address):</span>
+            {item.get('owner')}
+          </li>
+
+          {/*
           <li className="list-group-item">
             <span className="data-label in-progress">For Sale:</span>
             <input
               type="checkbox"
               id="inProgress"
-              onChange={() => this.handleCheckBox(tenant)}
-              checked={tenant.get('status') === 'submited'}
+              onChange={() => this.handleCheckBox(item)}
+              checked={item.get('status') === 'submited'}
             />
-            <label className={`switch ${!tenant.get('isAutoSubmited')}`} htmlFor="inProgress">
+            <label className={`switch ${!item.get('isAutoSubmited')}`} htmlFor="inProgress">
               Toggle
             </label>
-          </li>
-          {/* } */}
-          <li className="list-group-item">
-            <span className="data-label">Name:</span>
-            {tenant.get('firstName')} {tenant.get('lastName')}
           </li>
           <li className="list-group-item">
             <span className="data-label">Price:</span>
@@ -226,9 +242,55 @@ class TenantManagment extends Component {
           </li>
           <li className="list-group-item">
             <span className="data-label">Address:</span>
-            <input type="text" value={`${this.generateAddressForReport(tenant)}`} />
+            <input type="text" value={`${this.generateAddressForReport(item)}`} />
           </li>
+          */}
+
         </ul>
+      </div>
+    )
+  }
+
+  renderSellModal() {
+    const { isSellModalVisible } = this.state
+
+    if (!isSellModalVisible) {
+      return null
+    }
+
+    return (
+      <div className="modal-bg" >
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Transfer property</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="form-group">
+                    <label>Wallet Address</label>
+                    <input type="text" className="form-control" placeholder="Wallet Address" />
+                    <span style={{ marginTop: 5, marginLeft: 5, fontSize: 12 }} >
+                    ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
+                  </div>
+                  <div className="form-group">
+                    <label>Amount (NEO)</label>
+                    <input type="number" className="form-control" placeholder="Enter amount..." />
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={this.closeSellModal.bind(this)} >Sell</button>
+               
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -276,64 +338,41 @@ class TenantManagment extends Component {
             {this.props.items.valueSeq().map((tenant, key) => (
               <div key={key}>
                 <div className="card">
-                  <div
-                    className="card-header"
-                    onClick={() => {
-                      const { cards } = this.state
-                      cards[tenant.get('lease')] = !cards[tenant.get('lease')]
-                      // cards[tenant.get('lease')] = true
+                  <div className="card-header">
+                    <div
+                      className="float-left"
+                      onClick={() => {
+                        const { cards } = this.state
+                        cards[tenant.get('_id')] = !cards[tenant.get('_id')]
+                      // cards[tenant.get('_id')] = true
 
-                      if (Object.keys(cards).length > 1) {
-                        cards[this.state.previousCard] = false // hide previous card
-                      }
+                        console.log(tenant.get('_id'))
 
-                      this.setState({ cards, previousCard: tenant.get('lease') })
-                    }}
-                  >
-                    <div className="float-left">
+                        if (Object.keys(cards).length > 1) {
+                          cards[this.state.previousCard] = false // hide previous card
+                        }
+
+                        this.setState({ cards, previousCard: tenant.get('_id') })
+                      }}
+                    >
                       <h4>
                         <i className="fa fa-home" /> &nbsp;
-                        <span>{tenant.getIn(['property', 'street'])} </span>
-                        <span>{tenant.getIn(['property', 'city'])} </span>
-                        <span>{tenant.getIn(['property', 'state'])} </span>
-                        <span>{tenant.getIn(['property', 'zip'])} </span>
+                        <span>{tenant.get('address')} </span>
                       </h4>
                     </div>
                     <div className="float-right">
-                      <Link
-                        to={`/activities/${tenant.get('id')}/${tenant.get('lease')}`}
-                        className="btn btn-icon btn-sm btn-default report-btn"
+                      <Link to={`#`} className="btn btn-icon btn-sm btn-default report-btn">
+                         <i className="fa fa-file-text" aria-hidden="true" />
+                         Transaction history
+                      </Link>  
+                      <button
+                        onClick={this.showSellModal.bind(this)}
+                        className={'btn btn-icon btn-sm btn-primary'}
                       >
                         <i className="fa fa-file-text" aria-hidden="true" />
-                        Activities
-                      </Link>
-                      {/* {tenant.get('status') === 'submited' && */}
-                      <Link
-                        to={`${process.env.apiUrl}/api/v1/tenant/${tenant.get('id')}/pdf?lease=${tenant.get(
-                          'lease'
-                        )}&address=${this.generateAddressForReport(tenant)}`}
-                        target="_blank"
-                        className={this.renderReportButtonStyle(tenant.get('status') === 'submited')}
-                      >
-                        <i className="fa fa-file-text" aria-hidden="true" />
-                        Report
-                      </Link>
-                      {/* } */}
-                      <div className="btn-group" role="group">
-                        <Link
-                          to={`/tenants/edit/${tenant.get('id')}/${tenant.get('lease')}`}
-                          className="btn btn-sm btn-primary"
-                        >
-                          <i className="fa fa-pencil" aria-hidden="true" />
-                        </Link>
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-primary"
-                          onClick={() => this.deleteMessage(tenant)}
-                        >
-                          <i className="fa fa-trash-o" aria-hidden="true" />
-                        </button>
-                      </div>
+                        Sell
+                      </button>
+
                     </div>
                   </div>
                   {this.renderBody(tenant)}
@@ -343,6 +382,8 @@ class TenantManagment extends Component {
             ))}
           </div>
         </div>
+
+        {this.renderSellModal()}
       </div>
     )
   }
