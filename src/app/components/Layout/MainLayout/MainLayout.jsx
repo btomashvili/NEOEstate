@@ -5,7 +5,12 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { withTranslate } from 'react-redux-multilingual'
 import './MainLayout.scss'
-import Logo from '../../../resources/assets/images/logo.png'
+// import Logo from '../../../resources/assets/images/logo.png'
+
+import { updateFieldValue as updateCurrentUserFieldValue } 
+from '../../../modules/currentUser/actions/currentUserActions'
+
+import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 class MainLayout extends Component {
   constructor(props) {
@@ -20,6 +25,24 @@ class MainLayout extends Component {
 
   componentWillMount() {
     document.addEventListener('click', this.handleClick, false)
+
+    this.props.nos.getAddress()
+      .then((e) => {
+        this.props.updateCurrentUserFieldValue('isLoggedIn', true)
+        this.props.updateCurrentUserFieldValue('walletAddress', e)
+        this.props.updateCurrentUserFieldValue('data.email', e)
+      })
+    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)  
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
+     .then((e) => {
+       console.log('neo', e)
+       this.props.updateCurrentUserFieldValue('data.neo', e)
+     })
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
+     .then((e) => {
+       console.log('gas', e)
+       this.props.updateCurrentUserFieldValue('data.gas', e)
+     })
   }
 
   componentWillUnmount() {
@@ -37,14 +60,6 @@ class MainLayout extends Component {
   }
 
   renderNavbarHeader() {
-    // console.log('this.props.location.pathname =>>', this.props.content.props.location.pathname)
-    if (this.props.content.props.route.path === '/:inviteCode') {
-      return (
-        <Link to={this.props.content.props.location.pathname} className="navbar-brand" href="#">
-          <img src={Logo} height="30" className="d-inline-block align-top" alt="" />
-        </Link>
-      )
-    }
     return (
       <Link to="/" className="navbar-brand" href="#">
         <span>NEO</span>
@@ -67,6 +82,15 @@ class MainLayout extends Component {
                   <li className="nav-item">
                     <Link className="nav-link text-light" to="/tenants">
                       Properties
+                    </Link>
+                  </li>
+                )}
+              </ul>
+              <ul className="navbar-nav mr-auto">
+                {this.props.isLoggedIn && (
+                  <li className="nav-item">
+                    <Link className="nav-link text-light" to="/samples">
+                      Samples
                     </Link>
                   </li>
                 )}
@@ -128,9 +152,11 @@ const mapStateToProps = state => ({
   currentUser: state.currentUser.get('data'),
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+  updateCurrentUserFieldValue: (field, value, parent, isDelete) => dispatch(updateCurrentUserFieldValue(field, value, parent, isDelete)),
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslate(MainLayout))
+)(injectNOS(withTranslate(MainLayout)))

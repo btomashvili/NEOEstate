@@ -14,10 +14,12 @@ import {
   userUpdateRequest,
 } from '../../../currentUser/actions/currentUserActions'
 import Dropdown from '../../../../components/Dropdown/Dropdown'
-import { uploadUserAvatarRequest } from '../../../user/actions/userActions'
+import { uploadUserAvatarRequest } from '../../actions/userActions'
 import { ruleRunnerImmutable, run } from '../../../../utils/ruleRunner'
 import { required, invalidEmail } from '../../../../utils/rules'
 import timezones from '../../../../resources/constants/timezones'
+
+import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 const fieldValidations = [
   ruleRunnerImmutable('fullName', 'Full Name', required),
@@ -198,4 +200,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslate(SettingsScreen))
+)(injectNOS(withTranslate(SettingsScreen)))

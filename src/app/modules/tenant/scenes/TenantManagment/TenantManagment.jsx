@@ -2,7 +2,6 @@
 /* eslint class-methods-use-this:0 */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withTranslate } from 'react-redux-multilingual'
 import { Link, browserHistory } from 'react-router'
 import moment from 'moment'
 import SweetAlert from 'sweetalert-react'
@@ -18,13 +17,9 @@ import {
   inProgressTenantRequest,
 } from '../../actions/tenantActions'
 
-import { updateFieldValue as updateCurrentUserFieldValue } 
-from '../../../currentUser/actions/currentUserActions'
 
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
 import { showMessageBox } from '../../../../components/helpers/messageBox'
-
-import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 class TenantManagment extends Component {
   constructor(props) {
@@ -41,23 +36,7 @@ class TenantManagment extends Component {
     //TODO: RUN QUERY TO GET properties with wallet address
     // this.runQuery(this.props)
 
-    this.props.nos.getAddress()
-      .then((e) => {
-        this.props.updateCurrentUserFieldValue('isLoggedIn', true)
-        this.props.updateCurrentUserFieldValue('walletAddress', e)
-        this.props.updateCurrentUserFieldValue('data.email', e)
-      })
-    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)  
-    this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
-     .then((e) => {
-       console.log('neo', e)
-       this.props.updateCurrentUserFieldValue('data.neo', e)
-     })
-    this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
-     .then((e) => {
-       console.log('gas', e)
-       this.props.updateCurrentUserFieldValue('data.gas', e)
-     })
+    
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,15 +76,45 @@ class TenantManagment extends Component {
     this.props.searchTenantRequest(e.target.value)
   }
 
-  handleNewWalkthru() {
-    const credits = this.props.currentUser.get('credits')
-    console.log('CREDITS : ', credits)
-    if (credits < 1) {
-      this.setState({ show: true })
-    } else {
-      browserHistory.push('/tenants/new')
-    }
+  // handleNewWalkthru() {
+  //   const credits = this.props.currentUser.get('credits')
+  //   console.log('CREDITS : ', credits)
+  //   if (credits < 1) {
+  //     this.setState({ show: true })
+  //   } else {
+  //     browserHistory.push('/tenants/new')
+  //   }
+  // }
+  invokeContract() {
+
+    // alert('invoke')
+    const nos = window.NOS.V1;
+
+    // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
+    const scriptHash = '4c02e080d5c56f3946b5722c48ccb3907be34528'
+    const operation = 'nika'
+    const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
+
+    nos.invoke({ scriptHash, operation, args })
+    .then((script) => { 
+      // alert(`Test invoke script: ${script} `)
+      console.log('script', script)
+    })
+    .catch((err) => {
+      alert(`Error: ${err.message}`)
+      console.log('error', err)
+    })
+
+    // const credits = this.props.currentUser.get('credits')
+    // console.log('CREDITS : ', credits)
+    // if (credits < 1) {
+    //   this.setState({ show: true })
+    // } else {
+    //   browserHistory.push('/tenants/new')
+    // }
   }
+
+  
   generateAddressForReport(tenant) {
     return `${tenant.getIn(['property', 'street'])}-${tenant.getIn(['property', 'city'])}-${tenant.getIn([
       'property',
@@ -227,9 +236,9 @@ class TenantManagment extends Component {
             </div>
 
             <div className="float-right">
-              {/* <button className="btn btn-danger btn-icon" type="button" onClick={() => this.handleNewWalkthru()}>
-                <i className="fa fa-plus" aria-hidden="true" /> Add WalkThru
-              </button> */}
+              <button className="btn btn-danger btn-icon" type="button" onClick={() => this.invokeContract()}>
+                <i className="fa fa-plus" aria-hidden="true" /> Test Invoke
+              </button>
             </div>
           </div>
           <div className="col-md-6">
@@ -345,13 +354,11 @@ const mapDispatchToProps = dispatch => ({
   leaseListRequest: query => dispatch(leaseListRequest(query)),
   deleteTenantRequest: (id, lease) => dispatch(deleteTenantRequest(id, lease)),
   searchTenantRequest: text => dispatch(tenantSearchSuccess(text)),
-  // activityDeleteByKeyRequest: lease => dispatch(activityDeleteByKeyRequest(lease)),
   updateFieldValue: (field, value, parent, isDelete) => dispatch(updateFieldValue(field, value, parent, isDelete)),
-  updateCurrentUserFieldValue: (field, value, parent, isDelete) => dispatch(updateCurrentUserFieldValue(field, value, parent, isDelete)),
   inProgressRequest: (id, lease) => dispatch(inProgressTenantRequest(id, lease)),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(injectNOS(withTranslate(TenantManagment)))
+)(TenantManagment)

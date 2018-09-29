@@ -24,6 +24,7 @@ export default (lang = 'en') => {
       <Route path="/profile" onEnter={requireAuth} title={trans.myProfile} component={UserProfile} />
       <Route path="/change-password" onEnter={requireAuth} title={trans.myProfile} component={UserSettings} />
       <Route path="/settings" onEnter={requireAuth} title="SettingsScreen" component={SettingsScreen} />
+      <Route path="/samples"title="SettingsScreen" component={SettingsScreen} />
      
       <Route onEnter={requireAuth} path="/activities/:id/:lease" component={Activities} />
 
