@@ -41,11 +41,10 @@ class TenantManagment extends Component {
   }
 
   componentDidMount() {
-
-     //TODO: RUN QUERY TO GET properties with wallet address
+     // TODO: RUN QUERY TO GET properties with wallet address
      // this.runQuery(this.props)
 
-    
+
     this.props.nos.getAddress()
       .then((walletAddress) => {
         // alert(e)
@@ -110,9 +109,8 @@ class TenantManagment extends Component {
   }
 
   invokeContract() {
-
     // alert('invoke')
-    const nos = window.NOS.V1;
+    const nos = window.NOS.V1
 
     // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
     const scriptHash = '4c02e080d5c56f3946b5722c48ccb3907be34528'
@@ -120,7 +118,7 @@ class TenantManagment extends Component {
     const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
 
     nos.invoke({ scriptHash, operation, args })
-    .then((script) => { 
+    .then((script) => {
       // alert(`Test invoke script: ${script} `)
       console.log('script', script)
     })
@@ -138,7 +136,7 @@ class TenantManagment extends Component {
     // }
   }
 
-  
+
   generateAddressForReport(tenant) {
     return `${tenant.getIn(['property', 'street'])}-${tenant.getIn(['property', 'city'])}-${tenant.getIn([
       'property',
@@ -147,11 +145,11 @@ class TenantManagment extends Component {
   }
 
   renderStatus = (tenant) => {
-    if (tenant.get('status') && tenant.get('status').toLowerCase() === 'submited') {
-      return <button className="btn btn-sm btn-success">Submitted </button>
+    if (tenant.get('status') && tenant.get('status').toLowerCase() === 'active') {
+      return <button className="btn btn-sm btn-success">Active </button>
     }
 
-    return <button className="btn btn-sm btn-primary">In Progress</button>
+    return <button className="btn btn-sm btn-primary">Under mortgage</button>
   }
 
   renderReportButtonStyle(submited) {
@@ -170,18 +168,8 @@ class TenantManagment extends Component {
     this.props.inProgressRequest(id, lease)
   }
 
-  renderAutoSubmited = (tenant) => {
-    if (tenant.get('isAutoSubmited')) {
-      return (
-        <sup className="asterisk">
-          <sup style={{ fontSize: 9 }}> auto</sup>
-        </sup>
-      )
-    }
-  }
-
-  renderBody(tenant) {
-    if (!this.state.cards[tenant.get('lease')]) {
+  renderBody(item) {
+    if (!this.state.cards[item.get('id')]) {
       return null
     }
 
@@ -190,25 +178,67 @@ class TenantManagment extends Component {
         <ul className="list-group">
           <li className="list-group-item">
             <span className="data-label">Status:</span>
-            {this.renderStatus(tenant)}
+            {this.renderStatus(item)}
           </li>
-          {/* { tenant.get('isAutoSubmited') && */}
+
+
+          <li className="list-group-item">
+            <span className="data-label">number:</span>
+            {item.get('number')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">title:</span>
+            {item.get('title')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">cadastral code:</span>
+            {item.get('cadastral')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">MAP Address:</span>
+            <a href={`https://www.google.com/maps/place/@${item.get('mapAddress')},17z/`} target="_blank" >View on Google map</a>
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">Registration Date:</span>
+            {moment(item.get('registrationDate')).format('DD-MMMM-YYYY')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">type:</span>
+            {item.get('type')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">status:</span>
+            {item.get('status')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">address:</span>
+            {item.get('address')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">area:</span>
+            {item.get('area')} m<sup>2</sup>
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">link:</span>
+            {item.get('link')}
+          </li>
+          <li className="list-group-item">
+            <span className="data-label">owner (Waller Address):</span>
+            {item.get('owner')}
+          </li>
+
+          {/*
           <li className="list-group-item">
             <span className="data-label in-progress">For Sale:</span>
             <input
               type="checkbox"
               id="inProgress"
-              onChange={() => this.handleCheckBox(tenant)}
-              checked={tenant.get('status') === 'submited'}
+              onChange={() => this.handleCheckBox(item)}
+              checked={item.get('status') === 'submited'}
             />
-            <label className={`switch ${!tenant.get('isAutoSubmited')}`} htmlFor="inProgress">
+            <label className={`switch ${!item.get('isAutoSubmited')}`} htmlFor="inProgress">
               Toggle
             </label>
-          </li>
-          {/* } */}
-          <li className="list-group-item">
-            <span className="data-label">Name:</span>
-            {tenant.get('firstName')} {tenant.get('lastName')}
           </li>
           <li className="list-group-item">
             <span className="data-label">Price:</span>
@@ -216,8 +246,10 @@ class TenantManagment extends Component {
           </li>
           <li className="list-group-item">
             <span className="data-label">Address:</span>
-            <input type="text" value={`${this.generateAddressForReport(tenant)}`} />
+            <input type="text" value={`${this.generateAddressForReport(item)}`} />
           </li>
+          */}
+
         </ul>
       </div>
     )
@@ -283,10 +315,7 @@ class TenantManagment extends Component {
                     <div className="float-left">
                       <h4>
                         <i className="fa fa-home" /> &nbsp;
-                        <span>{tenant.getIn(['property', 'street'])} </span>
-                        <span>{tenant.getIn(['property', 'city'])} </span>
-                        <span>{tenant.getIn(['property', 'state'])} </span>
-                        <span>{tenant.getIn(['property', 'zip'])} </span>
+                        <span>{tenant.get('address')} </span>
                       </h4>
                     </div>
                     <div className="float-right">

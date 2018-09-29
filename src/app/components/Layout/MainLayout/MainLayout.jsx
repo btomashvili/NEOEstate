@@ -7,7 +7,7 @@ import { withTranslate } from 'react-redux-multilingual'
 import './MainLayout.scss'
 // import Logo from '../../../resources/assets/images/logo.png'
 
-import { updateFieldValue as updateCurrentUserFieldValue } 
+import { updateFieldValue as updateCurrentUserFieldValue }
 from '../../../modules/currentUser/actions/currentUserActions'
 
 import { injectNOS } from '@nosplatform/api-functions/lib/react'
@@ -32,7 +32,7 @@ class MainLayout extends Component {
         this.props.updateCurrentUserFieldValue('walletAddress', e)
         this.props.updateCurrentUserFieldValue('data.email', e)
       })
-    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)  
+    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)
     this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
      .then((e) => {
        console.log('neo', e)
@@ -62,7 +62,7 @@ class MainLayout extends Component {
   renderNavbarHeader() {
     return (
       <Link to="/" className="navbar-brand" href="#">
-        <span>GNOS Property Management</span>
+        <span>GNOS</span>
       </Link>
     )
   }
@@ -127,12 +127,12 @@ class MainLayout extends Component {
                     <li
                       className="nav-item float-right main-wrapper-dropdown-li"
                       onClick={() => this.setState({ dropdown: !this.state.dropdown })}
+                      style={{ alignItems: 'center' }}
                     >
                       <span className="main-wrapper-dropdown-email text-light">
                         {this.props.isLoggedIn && this.props.currentUser ? this.props.currentUser.get('email') : ''}
                       </span>
                       <i className="fa fa-user-o main-wrapper-address-logo text-light" aria-hidden="true" />
-
                     </li>
                   )}
                 </ul>
