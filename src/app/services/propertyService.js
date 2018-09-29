@@ -2,13 +2,14 @@
 import apiService from './service'
 
 const api = apiService('/api/v1/property')
+const orderApi = apiService('/api/v1/order')
 
 export const getPropertyList = query => api.get('', query)
 
 export const createProperty = body => api.post('/', body)
 
-// export const getTenantById = (id, query) => api.get(`/${id}`, query)
+export const transferProperty = body => orderApi.post('', body)
 
-// export const deleteTenant = id => api.delete(`/${id}`)
+export const getOfferList = query => orderApi.get('/offers', query)
 
-// export const updateTenant = (id, body) => api.put(`/${id}`, body)
+export const confirmOffer = body => orderApi.post('/confirm', body)

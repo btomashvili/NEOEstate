@@ -7,6 +7,7 @@ const initialState = fromJS({
   isLoading: false,
   reloadData: false,
   items: [],
+  offers: [],
   query: {
     where: {},
     pageSize: 10000,
@@ -86,6 +87,23 @@ export const propertyReducer = (state = initialState, action) => {
         .set('reloadData', false)
         .set('items', fromJS(action.payload.items))
         .set('totalCount', totalCount)
+  }
+
+  case actionTypes.OFFER_LIST_SUCCESS: {
+    // const totalCount = action.payload.totalCount || state.get('totalCount')
+    return state
+        // .set('isLoading', false)
+        // .set('reloadData', false)
+        .set('offers', fromJS(action.payload.items))
+        // .set('totalCount', totalCount)
+  }
+
+  case actionTypes.CONFIRM_OFFER_SUCCESS: {
+    return state
+        // .set('isLoading', false)
+        .set('reloadData', true)
+        // .set('offers', fromJS(action.payload.items))
+        // .set('totalCount', totalCount)
   }
 
   case actionTypes.PROPERTY_LIST_FAILURE:
