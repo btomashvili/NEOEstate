@@ -107,7 +107,7 @@ class TenantManagment extends Component {
       text: 'Are you sure you want to delete tenant?',
       icon: deleteConfirmIcon,
       confirmCallback: () => {
-        this.props.deleteTenantRequest(tenant.get('id'), tenant.get('lease'))
+        this.props.deleteTenantRequest(tenant.get('_id'), tenant.get('lease'))
       },
     })
   }
@@ -168,7 +168,7 @@ class TenantManagment extends Component {
   }
 
   handleCheckBox(tenant) {
-    const id = tenant.get('id')
+    const id = tenant.get('_id')
     const lease = tenant.get('lease')
     //  const inviteCode = tenant.get('inviteCode')
     // console.log('Lease Id ', lease)
@@ -178,7 +178,7 @@ class TenantManagment extends Component {
   }
 
   renderBody(item) {
-    if (!this.state.cards[item.get('id')]) {
+    if (!this.state.cards[item.get('_id')]) {
       return null
     }
 
@@ -214,10 +214,6 @@ class TenantManagment extends Component {
           <li className="list-group-item">
             <span className="data-label">type:</span>
             {item.get('type')}
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">status:</span>
-            {item.get('status')}
           </li>
           <li className="list-group-item">
             <span className="data-label">address:</span>
@@ -290,7 +286,7 @@ class TenantManagment extends Component {
                   </div>
                   <div className="form-group">
                     <label>Amount (NEO)</label>
-                    <input type="number" className="form-control" placeholder="Enter ammount..." />
+                    <input type="number" className="form-control" placeholder="Enter amount..." />
                   </div>
                 </form>
               </div>
@@ -353,14 +349,16 @@ class TenantManagment extends Component {
                       className="float-left"
                       onClick={() => {
                         const { cards } = this.state
-                        cards[tenant.get('lease')] = !cards[tenant.get('lease')]
-                      // cards[tenant.get('lease')] = true
+                        cards[tenant.get('_id')] = !cards[tenant.get('_id')]
+                      // cards[tenant.get('_id')] = true
+
+                        console.log(tenant.get('_id'))
 
                         if (Object.keys(cards).length > 1) {
                           cards[this.state.previousCard] = false // hide previous card
                         }
 
-                        this.setState({ cards, previousCard: tenant.get('lease') })
+                        this.setState({ cards, previousCard: tenant.get('_id') })
                       }}
                     >
                       <h4>
