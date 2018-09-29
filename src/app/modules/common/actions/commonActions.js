@@ -164,7 +164,6 @@ export function getAllMetricsRequest() {
   ]
 }
 
-
 export function permissionLookupListRequest(payload) {
   return {
     type: actionTypes.PERMISSION_LOOKUP_LIST_REQUEST,

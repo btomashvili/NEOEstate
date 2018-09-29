@@ -11,10 +11,7 @@ const initialState = fromJS({
     message: '',
     id: '',
   },
-  connexionStatusList: [
-    { id: 'Online', name: 'Online' },
-    { id: 'Offline', name: 'Offline' },
-  ],
+  connexionStatusList: [{ id: 'Online', name: 'Online' }, { id: 'Offline', name: 'Offline' }],
   genderList: [{ id: 'Male', name: 'Male' }, { id: 'Female', name: 'Female' }],
   prefixList: [{ id: 'Mr.', name: 'Mr.' }, { id: 'Mrs.', name: 'Mrs.' }],
   roomItems: [
@@ -70,13 +67,9 @@ export const commonReducer = (state = initialState, action) => {
   case commonTypes.COMMON_UPDATE_FIELD_VALUE:
     const { fields, value, isDeleted } = action
     if (fields.length === 1) {
-      return !isDeleted
-          ? state.set(fields[0], fromJS(value))
-          : state.delete(fields[0], fromJS(value))
+      return !isDeleted ? state.set(fields[0], fromJS(value)) : state.delete(fields[0], fromJS(value))
     }
-    return !isDeleted
-        ? state.setIn(fields, fromJS(value))
-        : state.deleteIn(fields, fromJS(value))
+    return !isDeleted ? state.setIn(fields, fromJS(value)) : state.deleteIn(fields, fromJS(value))
   case commonTypes.SHOW_SNACKBAR_NOTIFICATION:
     return state.set(
         'notification',
@@ -92,10 +85,7 @@ export const commonReducer = (state = initialState, action) => {
     return state
   case commonTypes.GET_METRICS_SUCCESS:
     const metrics = state.get('metrics')
-    return state.set(
-        'metrics',
-        metrics.set(action.status, action.payload.count)
-      )
+    return state.set('metrics', metrics.set(action.status, action.payload.count))
   case commonTypes.GET_METRICS_FAILURE:
     return state
   default:

@@ -5,10 +5,7 @@ import * as userApi from '../../services/userService'
 
 export function* permissionLookupListSaga(action) {
   try {
-    const { error, message, data } = yield call(
-      helperApi.getPermissions,
-      action.payload
-    )
+    const { error, message, data } = yield call(helperApi.getPermissions, action.payload)
     if (error) {
       yield put(actions.permissionLookupListFailure(message))
     } else {
@@ -47,10 +44,7 @@ export function* stateLookupListSaga(action) {
 
 export function* getMetricsSaga(action) {
   try {
-    const { error, message, data } = yield call(
-      userApi.getMetrics,
-      action.payload
-    )
+    const { error, message, data } = yield call(userApi.getMetrics, action.payload)
     if (error) {
       yield put(actions.getMetricsFailure(message))
     } else {

@@ -17,6 +17,14 @@ import {
   inProgressTenantRequest,
 } from '../../actions/tenantActions'
 
+import {
+  propertyListRequest,
+} from '../../../property/actions/propertyActions'
+
+import { updateFieldValue as updateCurrentUserFieldValue }
+from '../../../currentUser/actions/currentUserActions'
+
+import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
 import { showMessageBox } from '../../../../components/helpers/messageBox'
@@ -33,10 +41,31 @@ class TenantManagment extends Component {
   }
 
   componentDidMount() {
-    //TODO: RUN QUERY TO GET properties with wallet address
-    // this.runQuery(this.props)
+
+     //TODO: RUN QUERY TO GET properties with wallet address
+     // this.runQuery(this.props)
 
     
+    this.props.nos.getAddress()
+      .then((walletAddress) => {
+        // alert(e)
+        // this.props.updateCurrentUserFieldValue('isLoggedIn', true)
+        // this.props.updateCurrentUserFieldValue('walletAddress', walletAddress)
+        // this.props.updateCurrentUserFieldValue('data.email', walletAddress)
+
+        this.runQuery(this.props)
+      })
+    // console.log('window.NOS.ASSETS;', window.NOS.ASSETS)
+    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
+    //  .then((e) => {
+    //    console.log('neo', e)
+    //    this.props.updateCurrentUserFieldValue('data.neo', e)
+    //  })
+    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
+    //  .then((e) => {
+    //    console.log('gas', e)
+    //    this.props.updateCurrentUserFieldValue('data.gas', e)
+    //  })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,9 +84,13 @@ class TenantManagment extends Component {
 
   runQuery = (props) => {
     this.filterQuery(props)
+    const { walletAddress } = this.props
     setTimeout(() => {
       const query = this.props.query.toJS()
-      this.props.leaseListRequest(query)
+      // query.where = {
+      //   address: walletAddress,
+      // }
+      this.props.dispatch(propertyListRequest(query))
     }, 30)
   }
 
@@ -76,15 +109,6 @@ class TenantManagment extends Component {
     this.props.searchTenantRequest(e.target.value)
   }
 
-  // handleNewWalkthru() {
-  //   const credits = this.props.currentUser.get('credits')
-  //   console.log('CREDITS : ', credits)
-  //   if (credits < 1) {
-  //     this.setState({ show: true })
-  //   } else {
-  //     browserHistory.push('/tenants/new')
-  //   }
-  // }
   invokeContract() {
 
     // alert('invoke')
@@ -127,11 +151,6 @@ class TenantManagment extends Component {
       return <button className="btn btn-sm btn-success">Submitted </button>
     }
 
-    // TODO: https://trello.com/c/O85lT3q0
-    // if (moment().isAfter(tenant.get('leaseExpires'))) {
-    //   return (<button className="btn btn-sm btn-danger">Expired</button>)
-    // }
-
     return <button className="btn btn-sm btn-primary">In Progress</button>
   }
 
@@ -172,11 +191,10 @@ class TenantManagment extends Component {
           <li className="list-group-item">
             <span className="data-label">Status:</span>
             {this.renderStatus(tenant)}
-            {this.renderAutoSubmited(tenant)}
           </li>
           {/* { tenant.get('isAutoSubmited') && */}
           <li className="list-group-item">
-            <span className="data-label in-progress">Reopen WalkThru for tenant to complete:</span>
+            <span className="data-label in-progress">For Sale:</span>
             <input
               type="checkbox"
               id="inProgress"
@@ -193,26 +211,12 @@ class TenantManagment extends Component {
             {tenant.get('firstName')} {tenant.get('lastName')}
           </li>
           <li className="list-group-item">
-            <span className="data-label">Email:</span>
-            <Link href={`mailto:${tenant.get('email')}`} target="_blank">
-              {tenant.get('email')}
-            </Link>
+            <span className="data-label">Price:</span>
+            <input type="number" min="0" step={1000} /> $ (USD)
           </li>
           <li className="list-group-item">
-            <span className="data-label">Cell Phone:</span>
-            <a href={`tel:${tenant.get('phone')}`}>{tenant.get('phone')}</a>
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Date of WalkThru:</span>
-            {moment(tenant.get('leaseBegins')).format('MM/DD/YYYY')}
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Due Date:</span>
-            {moment(tenant.get('leaseExpires')).format('MM/DD/YYYY')}
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Invite Code:</span>
-            {tenant.get('inviteCode')}
+            <span className="data-label">Address:</span>
+            <input type="text" value={`${this.generateAddressForReport(tenant)}`} />
           </li>
         </ul>
       </div>
@@ -344,13 +348,15 @@ function mapStateToProps(state) {
     pageSize: state.tenant.getIn(['query', 'pageSize']),
     currentPage: state.tenant.getIn(['query', 'page']),
     totalCount: state.tenant.get('totalCount'),
-    items: state.tenant.get('leases'),
+    items: state.property.get('items'),
     searchText: state.tenant.get('searchText'),
     defaultNumberOfDaysToComplete: state.currentUser.getIn(['data', 'defaultNumberOfDaysToComplete']),
+    walletAddress: state.currentUser.get('walletAddress'),
   }
 }
 
 const mapDispatchToProps = dispatch => ({
+  dispatch,
   leaseListRequest: query => dispatch(leaseListRequest(query)),
   deleteTenantRequest: (id, lease) => dispatch(deleteTenantRequest(id, lease)),
   searchTenantRequest: text => dispatch(tenantSearchSuccess(text)),
@@ -361,4 +367,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TenantManagment)
+)(injectNOS(TenantManagment))

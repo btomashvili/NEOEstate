@@ -17,9 +17,10 @@ import { roles } from '../../../utils/permission'
 import MainLayout from '../../../components/Layout/MainLayout/MainLayout'
 import FourOFour from '../../errors/scenes/404Page/404Page'
 import AuthLayout from '../../../components/Layout/AuthLayout/AuthLayout'
-import DashboardLayout
-  from '../../../components/Layout/DashboardLayout/DashboardLayout'
+import DashboardLayout from '../../../components/Layout/DashboardLayout/DashboardLayout'
 import '../../../resources/assets/scss/main.scss'
+
+import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 class Main extends Component {
   constructor(props) {
@@ -366,5 +367,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withTranslate(Main)
+  injectNOS(withTranslate(Main))
 )
