@@ -52,30 +52,10 @@ class TenantManagment extends Component {
   }
 
   componentDidMount() {
-     // TODO: RUN QUERY TO GET properties with wallet address
-     // this.runQuery(this.props)
-
-
     this.props.nos.getAddress()
       .then((walletAddress) => {
-        // alert(e)
-        // this.props.updateCurrentUserFieldValue('isLoggedIn', true)
-        // this.props.updateCurrentUserFieldValue('walletAddress', walletAddress)
-        // this.props.updateCurrentUserFieldValue('data.email', walletAddress)
-
         this.runQuery(this.props)
       })
-    // console.log('window.NOS.ASSETS;', window.NOS.ASSETS)
-    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
-    //  .then((e) => {
-    //    console.log('neo', e)
-    //    this.props.updateCurrentUserFieldValue('data.neo', e)
-    //  })
-    // this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
-    //  .then((e) => {
-    //    console.log('gas', e)
-    //    this.props.updateCurrentUserFieldValue('data.gas', e)
-    //  })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -139,11 +119,22 @@ class TenantManagment extends Component {
     const nos = window.NOS.V1
 
     // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
-    const scriptHash = '4c02e080d5c56f3946b5722c48ccb3907be34528'
+    const scriptHash = '5f47e23a39368551b1b66047aad0f3f843fea89e'
+    // const scriptHash = '4b7f81954214a90b54d56e12f42cb9ac46de020a'
     const operation = 'nika'
     const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
 
-    nos.invoke({ scriptHash, operation, args })
+    // nos.invoke({ scriptHash, operation, args })
+    // .then((script) => {
+    //   // alert(`Test invoke script: ${script} `)
+    //   console.log('script', script)
+    // })
+    // .catch((err) => {
+    //   alert(`Error: ${err.message}`)
+    //   console.log('error', err)
+    // })
+
+    nos.testInvoke({ scriptHash, operation, args })
     .then((script) => {
       // alert(`Test invoke script: ${script} `)
       console.log('script', script)
@@ -328,6 +319,8 @@ class TenantManagment extends Component {
                   <div className="form-group">
                     <label>Wallet Address</label>
                     <input type="text" className="form-control" required onChange={this.updateOrderDetails('to').bind(this)} value={to} placeholder="Wallet Address" />
+                    <span style={{ marginTop: 5, marginLeft: 5, fontSize: 12 }} >
+                    ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
                   </div>
                   <div className="form-group">
                     <label>Amount (NEO)</label>
@@ -347,7 +340,7 @@ class TenantManagment extends Component {
   }
 
   renderProperties() {
-    if(!this.props.items.size) {
+    if (!this.props.items.size) {
       return (
         <div className="row">
           <div className="col-md-12">
@@ -419,7 +412,10 @@ class TenantManagment extends Component {
                       </h4>
                     </div>
                     <div className="float-right">
-
+                      <Link to={'#'} className="btn btn-icon btn-sm btn-default report-btn">
+                        <i className="fa fa-file-text" aria-hidden="true" />
+                         Transaction history
+                      </Link>
                       <button
                         onClick={() => this.showSellModal(tenant)}
                         className={'btn btn-icon btn-sm btn-primary'}
@@ -442,7 +438,7 @@ class TenantManagment extends Component {
   }
 
   renderOffers() {
-    if(!this.props.offers.size) {
+    if (!this.props.offers.size) {
       return (
         <div className="row">
           <div className="col-md-12">
