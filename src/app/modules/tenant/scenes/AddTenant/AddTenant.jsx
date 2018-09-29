@@ -47,10 +47,10 @@ class AddTenant extends Component {
     return (
       <div className="tenants-page">
         <div className="row">
-          <div className="col-md-12">
+          {/* <div className="col-md-12">
             <h6 className="text-center">Add WalkThru</h6>
             <hr />
-          </div>
+          </div> */}
         </div>
         <div className="row">
           <div className="col-md-12">

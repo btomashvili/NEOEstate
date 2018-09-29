@@ -51,6 +51,17 @@ class TenantManagment extends Component {
 
         this.runQuery(this.props)
       })
+    console.log('window.NOS.ASSETS;', window.NOS.ASSETS)
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.NEO })
+     .then((e) => {
+       console.log('neo', e)
+       this.props.updateCurrentUserFieldValue('data.neo', e)
+     })
+    this.props.nos.getBalance({ asset: window.NOS.ASSETS.GAS })
+     .then((e) => {
+       console.log('gas', e)
+       this.props.updateCurrentUserFieldValue('data.gas', e)
+     })
   }
 
   componentWillReceiveProps(nextProps) {
