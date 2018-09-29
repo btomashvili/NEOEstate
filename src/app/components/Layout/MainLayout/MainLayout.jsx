@@ -62,7 +62,7 @@ class MainLayout extends Component {
   renderNavbarHeader() {
     return (
       <Link to="/" className="navbar-brand" href="#">
-        <span>GNOS Property Management</span>
+        <span>GNOS</span>
       </Link>
     )
   }
@@ -78,7 +78,7 @@ class MainLayout extends Component {
             </button>
             <div className={`${!this.state.collapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNavDropdown">
               <ul className="navbar-nav mr-auto">
-                {/*
+                
                 {this.props.isLoggedIn && (
                   <li className="nav-item">
                     <Link className="nav-link text-light" to="/tenants">
@@ -86,7 +86,7 @@ class MainLayout extends Component {
                     </Link>
                   </li>
                 )}
-                */}
+               
               </ul>
               <ul className="navbar-nav mr-auto">
                 {this.props.isLoggedIn && (
@@ -123,7 +123,6 @@ class MainLayout extends Component {
                 <ul className="navbar-nav mr-auto" />
                 <ul className="navbar-nav main-wrapper-dropdown" ref={dropdown => (this.dropdown = dropdown)}>
                   {this.props.isLoggedIn && (
-
                     <li
                       className="nav-item float-right main-wrapper-dropdown-li"
                       onClick={() => this.setState({ dropdown: !this.state.dropdown })}

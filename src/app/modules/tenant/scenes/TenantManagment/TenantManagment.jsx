@@ -115,12 +115,22 @@ class TenantManagment extends Component {
     const nos = window.NOS.V1;
 
     // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
-    const scriptHash = '4c02e080d5c56f3946b5722c48ccb3907be34528'
+    const scriptHash = '5f47e23a39368551b1b66047aad0f3f843fea89e'
     const operation = 'nika'
     const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
 
-    nos.invoke({ scriptHash, operation, args })
-    .then((script) => { 
+    // nos.invoke({ scriptHash, operation, args })
+    // .then((script) => {
+    //   // alert(`Test invoke script: ${script} `)
+    //   console.log('script', script)
+    // }) 
+    // .catch((err) => {
+    //   alert(`Error: ${err.message}`)
+    //   console.log('error', err)
+    // })
+
+    nos.testInvoke({ scriptHash, operation, args })
+    .then((script) => {
       // alert(`Test invoke script: ${script} `)
       console.log('script', script)
     })
