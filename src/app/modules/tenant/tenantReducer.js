@@ -44,23 +44,6 @@ const initialState = fromJS({
         zip: '',
         lease: '',
       },
-      unit: {
-        unitNumber: '',
-        details: {
-          totalFloors: 0,
-          basement: false,
-          bedrooms: {
-            total: 0,
-            master: false,
-          },
-          fullBaths: {
-            total: 0,
-            master: false,
-          },
-          halfBaths: 0,
-        },
-        rooms: [],
-      },
       rooms: [],
       invite: {
         status: '',

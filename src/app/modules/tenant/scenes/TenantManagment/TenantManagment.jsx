@@ -18,8 +18,13 @@ import {
   inProgressTenantRequest,
 } from '../../actions/tenantActions'
 
+import { updateFieldValue as updateCurrentUserFieldValue } 
+from '../../../currentUser/actions/currentUserActions'
+
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
 import { showMessageBox } from '../../../../components/helpers/messageBox'
+
+import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
 class TenantManagment extends Component {
   constructor(props) {
@@ -34,6 +39,16 @@ class TenantManagment extends Component {
 
   componentDidMount() {
     this.runQuery(this.props)
+
+    console.log('this.props.nos', this.props.nos)
+    // this.props.updateFieldValue('')
+    this.props.nos.getAddress()
+      .then((e) => { 
+        // alert(e) 
+        this.props.updateCurrentUserFieldValue('isLoggedIn', true)
+        this.props.updateCurrentUserFieldValue('walletAddress', e)
+        this.props.updateCurrentUserFieldValue('data.email', e)
+      })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -203,9 +218,9 @@ class TenantManagment extends Component {
             </div>
 
             <div className="float-right">
-              <button className="btn btn-danger btn-icon" type="button" onClick={() => this.handleNewWalkthru()}>
+              {/* <button className="btn btn-danger btn-icon" type="button" onClick={() => this.handleNewWalkthru()}>
                 <i className="fa fa-plus" aria-hidden="true" /> Add WalkThru
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="col-md-6">
@@ -323,10 +338,11 @@ const mapDispatchToProps = dispatch => ({
   searchTenantRequest: text => dispatch(tenantSearchSuccess(text)),
   // activityDeleteByKeyRequest: lease => dispatch(activityDeleteByKeyRequest(lease)),
   updateFieldValue: (field, value, parent, isDelete) => dispatch(updateFieldValue(field, value, parent, isDelete)),
+  updateCurrentUserFieldValue: (field, value, parent, isDelete) => dispatch(updateCurrentUserFieldValue(field, value, parent, isDelete)),
   inProgressRequest: (id, lease) => dispatch(inProgressTenantRequest(id, lease)),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslate(TenantManagment))
+)(injectNOS(withTranslate(TenantManagment)))

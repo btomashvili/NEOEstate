@@ -91,6 +91,7 @@ const initialState = fromJS({
     text: '',
   },
   isLoggedIn: false,
+  walletAddress : '',
   error: null,
   permissions: {},
   socketConnected: false,

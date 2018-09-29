@@ -70,34 +70,8 @@ class MainLayout extends Component {
                     </Link>
                   </li>
                 )}
-                {/* {this.props.isLoggedIn &&
-                                <li className="nav-item">
-                                    <Link className="nav-link text-light" to="/billing">Billing</Link>
-                                </li>
-                            } */}
-
               </ul>
-              {/* <ul className="navbar-nav">
-                            {this.props.isLoggedIn &&
-                            <li
-                              className="nav-item float-right main-wrapper-dropdown-li"
-                              onClick={() => this.setState({ dropdown: !this.state.dropdown })}
-                            >
-                              <span className="main-wrapper-dropdown-email">
-                                  {this.props.isLoggedIn && this.props.currentUser ? this.props.currentUser.get('email') : ''}
-                              </span>
-                              <i className="fa fa-user-o main-wrapper-dropdown-logo" aria-hidden="true" />
-                              <span className="main-wrapper-dropdown-logo-arrow" />
-                            </li>
-
-                            <li className="nav-item float-right">
-                                <a className="nav-link text-light btn-icon" onClick={this.props.handlerLogOut}>
-                                    <i className="fa fa-sign-out" aria-hidden="true" />
-                                    Logout
-                                </a>
-                            </li>
-                          }
-                        </ul> */}
+             
 
               <div className="navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav mr-auto" />
