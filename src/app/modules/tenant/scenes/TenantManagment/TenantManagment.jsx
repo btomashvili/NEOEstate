@@ -196,7 +196,7 @@ class TenantManagment extends Component {
           </li>
           <li className="list-group-item">
             <span className="data-label">MAP Address:</span>
-            <a href={`https://www.google.com/maps/place/@${item.get('mapAddress')},17z/`} target="_blank" >View on Google map</a>
+            <a href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`} target="_blank" >View on Google map</a>
           </li>
           <li className="list-group-item">
             <span className="data-label">Registration Date:</span>
