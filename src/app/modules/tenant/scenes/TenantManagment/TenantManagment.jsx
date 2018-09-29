@@ -199,7 +199,7 @@ class TenantManagment extends Component {
         <div className="row">
           <div className="col-md-12">
             <div className="float-left">
-              <h3>WalkThru</h3>
+              <h3>Properties</h3>
             </div>
 
             <div className="float-right">

@@ -12,17 +12,18 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.isLoggedIn) {
-      return browserHistory.push('/login')
-    }
+    // if (!this.props.isLoggedIn) {
+    //   return browserHistory.push('/login')
+    // }
   }
 
   render() {
-    if (this.props.isLoggedIn) {
-      return <TenantManagment />
-    }
+    // if (this.props.isLoggedIn) {
+    //   return <TenantManagment />
+    // }
+    return <TenantManagment />
 
-    return <Link to="login" />
+    // return <Link to="login" />
   }
 }
 

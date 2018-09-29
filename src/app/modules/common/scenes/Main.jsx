@@ -36,50 +36,51 @@ class Main extends Component {
   componentDidMount() {
     console.log('componentDidMount MAIN')
     // this.props.countryLookupListRequest() // temp remove after signup done
-    if (auth.getToken()) {
-      this.props.fetchUserRequest()
-    }
+    // if (auth.getToken()) {
+    //   this.props.fetchUserRequest()
+    // }
     setTimeout(() => this.setState({ isLoading: false }), 1000)
     document.documentElement.setAttribute('data-browser', navigator.userAgent)
 
     // WHEN we are getting from Meail confirm
-    if (this.props.location.query.confirm && !this.props.isLoggedIn) {
-      browserHistory.push('/login')
-    }
+    // if (this.props.location.query.confirm && !this.props.isLoggedIn) {
+    //   browserHistory.push('/login')
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.isLoggedIn &&
-      this.props.isLoggedIn !== nextProps.isLoggedIn &&
-      this.props.location.pathname === '/login'
-    ) {
-      browserHistory.push('/')
-    }
 
-    if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
-      this.props.stateLookupListRequest()
-      this.props.housingTypesListRequest()
-      this.props.locationListRequest()
-      this.props.roomTypesRequest()
-    }
+    // if (
+    //   nextProps.isLoggedIn &&
+    //   this.props.isLoggedIn !== nextProps.isLoggedIn &&
+    //   this.props.location.pathname === '/login'
+    // ) {
+    //   browserHistory.push('/')
+    // }
 
-    if (!nextProps.isLoggedIn && this.props.isLoggedIn) {
-      browserHistory.push('/login')
-    }
+    // if (nextProps.isLoggedIn && !this.props.isLoggedIn) {
+    //   this.props.stateLookupListRequest()
+    //   this.props.housingTypesListRequest()
+    //   this.props.locationListRequest()
+    //   this.props.roomTypesRequest()
+    // }
 
-    if (nextProps.snackbar && this.props.snackbar.get('id') !== nextProps.snackbar.get('id')) {
-      this.addNotification(nextProps.snackbar)
-    }
+    // if (!nextProps.isLoggedIn && this.props.isLoggedIn) {
+    //   browserHistory.push('/login')
+    // }
 
-    if (nextProps.isLoggedIn && !this.props.isLoggedIn && !this.props.currentUser.get('socketConnected')) {
-      const user = {
-        id: nextProps.currentUser.getIn(['data', 'id']),
-        // company: nextProps.currentUser.getIn(['data', 'company']),
-        email: nextProps.currentUser.getIn(['data', 'email']),
-        // team: nextProps.currentUser.getIn(['data', 'team']),
-      }
-    }
+    // if (nextProps.snackbar && this.props.snackbar.get('id') !== nextProps.snackbar.get('id')) {
+    //   this.addNotification(nextProps.snackbar)
+    // }
+
+    // if (nextProps.isLoggedIn && !this.props.isLoggedIn && !this.props.currentUser.get('socketConnected')) {
+    //   const user = {
+    //     id: nextProps.currentUser.getIn(['data', 'id']),
+    //     // company: nextProps.currentUser.getIn(['data', 'company']),
+    //     email: nextProps.currentUser.getIn(['data', 'email']),
+    //     // team: nextProps.currentUser.getIn(['data', 'team']),
+    //   }
+    // }
 
     // this.getData(nextProps)
   }
