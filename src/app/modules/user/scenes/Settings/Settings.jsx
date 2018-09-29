@@ -49,17 +49,14 @@ class SettingsScreen extends Component {
     const amount = String(this.state.amount)
     const receiver = String(this.state.address)
     const nos = window.NOS.V1
-    console.log('=>>', window.NOS)
     const { GAS } = window.NOS.ASSETS
 
     nos.send({ asset: GAS, amount, receiver })
      .then(txid => {
        alert(`${amount} GAS sent in transaction ${txid}`)
-       console.log('send =>>', txid)
      })
      .catch(err => {
       alert(`Error: ${err.message}`)
-      console.log('err =>>', err)
      })
   }
 

@@ -32,6 +32,12 @@ import { injectNOS } from '@nosplatform/api-functions/lib/react'
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
 import { showMessageBox } from '../../../../components/helpers/messageBox'
 
+const SEND_OFFER_HASH_SCRIPT = ''
+const SEND_OFFER_OPERATION = ''
+
+const { GAS } = window.NOS.ASSETS
+
+
 class TenantManagment extends Component {
   constructor(props) {
     super(props)
@@ -43,10 +49,15 @@ class TenantManagment extends Component {
       previousCard: null,
       isSellModalVisible: false,
       activeTab: 'properties',
+      // receiver: '',
+      // amount: '',
+      // property:'',
       order: {
         property: {},
-        to: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',
-        amount: 50,
+        // to: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',
+        to: '',
+        // amount: 50,
+        amount: '',
       },
     }
   }
@@ -114,6 +125,7 @@ class TenantManagment extends Component {
     this.props.searchTenantRequest(e.target.value)
   }
 
+  //NOTE: test contract  
   invokeContract() {
     // alert('invoke')
     const nos = window.NOS.V1
@@ -124,42 +136,47 @@ class TenantManagment extends Component {
     const operation = 'nika'
     const args = ['ef68bcda-2892-491a-a7e6-9c4cb1a11732']
 
-    // nos.invoke({ scriptHash, operation, args })
-    // .then((script) => {
-    //   // alert(`Test invoke script: ${script} `)
-    //   console.log('script', script)
-    // })
-    // .catch((err) => {
-    //   alert(`Error: ${err.message}`)
-    //   console.log('error', err)
-    // })
-
     nos.testInvoke({ scriptHash, operation, args })
     .then((script) => {
       // alert(`Test invoke script: ${script} `)
       console.log('script', script)
     })
     .catch((err) => {
-      alert(`Error: ${err.message}`)
+      // alert(`Error: ${err.message}`)
       console.log('error', err)
     })
-
-    // const credits = this.props.currentUser.get('credits')
-    // console.log('CREDITS : ', credits)
-    // if (credits < 1) {
-    //   this.setState({ show: true })
-    // } else {
-    //   browserHistory.push('/tenants/new')
-    // }
   }
 
+  sendOffer() {
+    // alert('111')
+    const nos = window.NOS.V1
+    // NOTE: this is script for sendoffer constract
+    // const scriptHash = SEND_OFFER_HASH_SCRIPT
+    // const operation = SEND_OFFER_OPERATION
 
-  generateAddressForReport(tenant) {
-    return `${tenant.getIn(['property', 'street'])}-${tenant.getIn(['property', 'city'])}-${tenant.getIn([
-      'property',
-      'state',
-    ])}-${tenant.getIn(['property', 'zip'])}`
+    // nos.invoke({ scriptHash, operation, args })
+    // .then((txid) => alert(`Invoke txid: ${txid} `))
+    // .catch((err) => alert(`Error: ${err.message}`));
+    // const amount = this.state.order.
+     const receiver = this.state.order.to
+     const amount = String(this.state.order.amount)
+     nos.send({ asset: GAS, amount, receiver })
+     .then(txid => {
+       alert(`${amount} GAS sent in transaction ${txid}`)
+     })
+     .catch(err => {
+      alert(`Error: ${err.message}`)
+     })
+
+
   }
+
+  // generateAddressForReport(tenant) {
+  //   return `${tenant.getIn(['property', 'street'])}-${tenant.getIn(['property', 'city'])}-${tenant.getIn([
+  //     'property',
+  //     'state',
+  //   ])}-${tenant.getIn(['property', 'zip'])}`
+  // }
 
   renderStatus = (tenant) => {
     if (tenant.get('status') && tenant.get('status').toLowerCase() === 'active') {
@@ -240,7 +257,8 @@ class TenantManagment extends Component {
           </li>
           <li className="list-group-item">
             <span className="data-label">MAP Address:</span>
-            <a href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`} target="_blank" >View on Google map</a>
+            <a href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`} 
+              target="_blank" >View on Google map</a>
           </li>
           <li className="list-group-item">
             <span className="data-label">Registration Date:</span>
@@ -267,29 +285,6 @@ class TenantManagment extends Component {
             {item.get('owner')}
           </li>
 
-          {/*
-          <li className="list-group-item">
-            <span className="data-label in-progress">For Sale:</span>
-            <input
-              type="checkbox"
-              id="inProgress"
-              onChange={() => this.handleCheckBox(item)}
-              checked={item.get('status') === 'submited'}
-            />
-            <label className={`switch ${!item.get('isAutoSubmited')}`} htmlFor="inProgress">
-              Toggle
-            </label>
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Price:</span>
-            <input type="number" min="0" step={1000} /> $ (USD)
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Address:</span>
-            <input type="text" value={`${this.generateAddressForReport(item)}`} />
-          </li>
-          */}
-
         </ul>
       </div>
     )
@@ -310,7 +305,7 @@ class TenantManagment extends Component {
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Transfer property</h5>
+                  <h5 className="modal-title">Send property offer</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -329,7 +324,7 @@ class TenantManagment extends Component {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
-                  <button type="submit" className="btn btn-primary" >Sell</button>
+                  <button type="submit" className="btn btn-primary" onClick={this.sendOffer.bind(this)} >Send Offer</button>
                 </div>
               </div>
             </div>
@@ -421,7 +416,7 @@ class TenantManagment extends Component {
                         className={'btn btn-icon btn-sm btn-primary'}
                       >
                         <i className="fa fa-file-text" aria-hidden="true" />
-                      Sell
+                      Send
                     </button>
 
                     </div>
