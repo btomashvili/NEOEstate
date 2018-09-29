@@ -59,5 +59,8 @@ export default function* root() {
     takeLatest(activityTypes.ACTIVITY_DELETE_BY_KEY_REQUEST, activitySagas.deleteActivityByKey),
 
     takeLatest(propertyTypes.PROPERTY_LIST_REQUEST, propertySagas.propertyListSaga),
+    takeLatest(propertyTypes.TRANSFER_PROPERTY_REQUEST, propertySagas.transferPropertySaga),
+    takeLatest(propertyTypes.OFFER_LIST_REQUEST, propertySagas.offerListSaga),
+    takeLatest(propertyTypes.CONFIRM_OFFER_REQUEST, propertySagas.confirmOfferSaga),
   ]
 }

@@ -1,6 +1,6 @@
 /* eslint import/no-extraneous-dependencies:0 */
 /* eslint class-methods-use-this:0 */
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
 import moment from 'moment'
@@ -19,6 +19,9 @@ import {
 
 import {
   propertyListRequest,
+  transferPropertyRequest,
+  offerListRequest,
+  confirmOfferRequest,
 } from '../../../property/actions/propertyActions'
 
 import { updateFieldValue as updateCurrentUserFieldValue }
@@ -32,12 +35,19 @@ import { showMessageBox } from '../../../../components/helpers/messageBox'
 class TenantManagment extends Component {
   constructor(props) {
     super(props)
+    this.showSellModal = this.showSellModal.bind(this)
     this.state = {
       show: false,
       isBodyVisible: false,
       cards: {},
       previousCard: null,
       isSellModalVisible: false,
+      activeTab: 'properties',
+      order: {
+        property: {},
+        to: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',
+        amount: 50,
+      },
     }
   }
 
@@ -67,27 +77,35 @@ class TenantManagment extends Component {
     const { walletAddress } = this.props
     setTimeout(() => {
       const query = this.props.query.toJS()
-      // query.where = {
-      //   address: walletAddress,
-      // }
+      query.where = {
+        owner: walletAddress,
+      }
+      query.populate = ['order']
       this.props.dispatch(propertyListRequest(query))
+
+      const offerQuery = {
+        where: { to: walletAddress },
+        populate: ['propertyId'],
+      }
+      this.props.dispatch(offerListRequest(offerQuery))
     }, 30)
   }
 
   showSellModal(item) {
     console.log('reset')
-    this.setState({ isSellModalVisible: true })
+    this.setState({ isSellModalVisible: true, order: { property: item.toJS() } })
   }
   closeSellModal(item) {
     this.setState({ isSellModalVisible: false })
   }
 
-  deleteMessage(tenant) {
+  confirmOrder(offer) {
     showMessageBox({
-      text: 'Are you sure you want to delete tenant?',
+      text: 'Are you sure you want to buy this property?',
       icon: deleteConfirmIcon,
       confirmCallback: () => {
-        this.props.deleteTenantRequest(tenant.get('_id'), tenant.get('lease'))
+        const data = offer.toJS()
+        this.props.dispatch(confirmOfferRequest(data))
       },
     })
   }
@@ -152,23 +170,24 @@ class TenantManagment extends Component {
     return <button className="btn btn-sm btn-primary">Under mortgage</button>
   }
 
-  renderReportButtonStyle(submited) {
-    return submited
-      ? 'btn btn-icon btn-sm btn-primary report-btn'
-      : 'btn btn-icon btn-sm btn-secondary disabled report-btn'
+  updateOrderDetails(fieldName) {
+    return (e) => {
+      const { order } = this.state
+      order[fieldName] = e.target.value
+      console.log(order)
+      this.setState({ order })
+    }
   }
 
-  handleCheckBox(tenant) {
-    const id = tenant.get('_id')
-    const lease = tenant.get('lease')
-    //  const inviteCode = tenant.get('inviteCode')
-    // console.log('Lease Id ', lease)
-    // console.log('invite Code ', inviteCode)
-    this.props.updateFieldValue('isAutoSubmited', !tenant.get('isAutoSubmited'))
-    this.props.inProgressRequest(id, lease)
+  transfer() {
+    const { order } = this.state
+    const { dispatch } = this.props
+    this.closeSellModal()
+    dispatch(transferPropertyRequest(order))
   }
 
   renderBody(item) {
+    console.log(this.state.cards, item.get('_id'), this.state.cards[item.get('_id')])
     if (!this.state.cards[item.get('_id')]) {
       return null
     }
@@ -252,7 +271,7 @@ class TenantManagment extends Component {
   }
 
   renderSellModal() {
-    const { isSellModalVisible } = this.state
+    const { isSellModalVisible, order: { amount, to } } = this.state
 
     if (!isSellModalVisible) {
       return null
@@ -273,20 +292,19 @@ class TenantManagment extends Component {
                 <form>
                   <div className="form-group">
                     <label>Wallet Address</label>
-                    <input type="text" className="form-control" placeholder="Wallet Address" />
+                    <input type="text" className="form-control" onChange={this.updateOrderDetails('to').bind(this)} value={to} placeholder="Wallet Address" />
                     <span style={{ marginTop: 5, marginLeft: 5, fontSize: 12 }} >
                     ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
                   </div>
                   <div className="form-group">
                     <label>Amount (NEO)</label>
-                    <input type="number" className="form-control" placeholder="Enter amount..." />
+                    <input type="number" className="form-control" onChange={this.updateOrderDetails('amount').bind(this)} value={amount} placeholder="Enter amount..." />
                   </div>
                 </form>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary" onClick={this.closeSellModal.bind(this)} >Sell</button>
-               
+                <button type="button" className="btn btn-primary" onClick={this.transfer.bind(this)} >Sell</button>
               </div>
             </div>
           </div>
@@ -295,16 +313,9 @@ class TenantManagment extends Component {
     )
   }
 
-  render() {
+  renderProperties() {
     return (
-      <div className="tenants-page">
-        <SweetAlert
-          show={this.state.show}
-          title="No Remaining WalkThrus"
-          html
-          text="Please contact us to have more WalkThrus added to your account"
-          onConfirm={() => this.setState({ show: false })}
-        />
+      <div>
         <div className="row">
           <div className="col-md-12">
             <div className="float-left">
@@ -344,7 +355,7 @@ class TenantManagment extends Component {
                       onClick={() => {
                         const { cards } = this.state
                         cards[tenant.get('_id')] = !cards[tenant.get('_id')]
-                      // cards[tenant.get('_id')] = true
+                    // cards[tenant.get('_id')] = true
 
                         console.log(tenant.get('_id'))
 
@@ -366,12 +377,12 @@ class TenantManagment extends Component {
                          Transaction history
                       </Link>  
                       <button
-                        onClick={this.showSellModal.bind(this)}
+                        onClick={() => this.showSellModal(tenant)}
                         className={'btn btn-icon btn-sm btn-primary'}
                       >
                         <i className="fa fa-file-text" aria-hidden="true" />
-                        Sell
-                      </button>
+                      Sell
+                    </button>
 
                     </div>
                   </div>
@@ -379,8 +390,124 @@ class TenantManagment extends Component {
                 </div>
                 <br />
               </div>
-            ))}
+          ))}
           </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderOffers() {
+    return (
+      <div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="float-left">
+              <h3>Offers</h3>
+            </div>
+
+            <div className="float-right" />
+          </div>
+          <div className="col-md-6">
+            <Input
+              className="form-control"
+              value={this.props.searchText}
+              placeholder="Search..."
+              onChange={(value) => {
+                this.handleSearch(value)
+              }}
+              type="text"
+            />
+          </div>
+          <br />
+          <div className="col-md-12">
+            <hr />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            {this.props.offers.valueSeq().map((offer, key) => (
+              <div key={key}>
+                <div className="card">
+                  <div className="card-header">
+                    <div
+                      className="float-left"
+                      onClick={() => {
+                        const { cards } = this.state
+                        const id = offer.getIn(['propertyId', '_id'])
+                        cards[id] = !cards[id]
+                    // cards[id] = true
+
+                        console.log(id)
+
+                        if (Object.keys(cards).length > 1) {
+                          cards[this.state.previousCard] = false // hide previous card
+                        }
+
+                        this.setState({ cards, previousCard: id })
+                      }}
+                    >
+                      <h4>
+                        <i className="fa fa-home" /> &nbsp;
+                        <span>{offer.getIn(['propertyId', 'address'])} </span>
+                      </h4>
+                    </div>
+                    <div className="float-right">
+
+                      {offer.get('status') === 'inprogress' && (
+                      <button
+                        onClick={() => this.confirmOrder(offer)}
+                        className={'btn btn-icon btn-sm btn-success'}
+                      >
+                        <i className="fa fa-file-text" aria-hidden="true" />
+                        Confirm
+                      </button>
+                    )}
+
+                    </div>
+                  </div>
+                  {this.renderBody(offer.get('propertyId'))}
+                </div>
+                <br />
+              </div>
+          ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    const { activeTab } = this.state
+    return (
+      <div className="tenants-page">
+        <SweetAlert
+          show={this.state.show}
+          title="No Remaining WalkThrus"
+          html
+          text="Please contact us to have more WalkThrus added to your account"
+          onConfirm={() => this.setState({ show: false })}
+        />
+
+        <nav>
+          <div className="nav nav-tabs" id="nav-tab" role="tablist">
+            <a className={`nav-item nav-link ${activeTab === 'properties' ? 'active' : ''}`} onClick={() => this.setState({ activeTab: 'properties' })}>Properties</a>
+            <a className={`nav-item nav-link ${activeTab === 'offers' ? 'active' : ''}`} onClick={() => this.setState({ activeTab: 'offers' })}>Offers</a>
+          </div>
+        </nav>
+
+
+        <div className="tab-content" id="nav-tabContent">
+          {activeTab === 'properties' && (
+            <div className="tab-pane fade show active">
+              {this.renderProperties()}
+            </div>
+          )}
+          {activeTab === 'offers' && (
+            <div className="tab-pane fade show active">
+              {this.renderOffers()}
+            </div>
+          )}
         </div>
 
         {this.renderSellModal()}
@@ -393,13 +520,14 @@ function mapStateToProps(state) {
   return {
     currentUserRole: state.currentUser.getIn(['data', 'role']),
     currentUser: state.currentUser.get('data'),
-    reloadData: state.tenant.get('reloadData'),
+    reloadData: state.property.get('reloadData'),
     isLoading: state.tenant.get('isLoading'),
     query: state.tenant.get('query'),
     pageSize: state.tenant.getIn(['query', 'pageSize']),
     currentPage: state.tenant.getIn(['query', 'page']),
     totalCount: state.tenant.get('totalCount'),
     items: state.property.get('items'),
+    offers: state.property.get('offers'),
     searchText: state.tenant.get('searchText'),
     defaultNumberOfDaysToComplete: state.currentUser.getIn(['data', 'defaultNumberOfDaysToComplete']),
     walletAddress: state.currentUser.get('walletAddress'),
