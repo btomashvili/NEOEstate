@@ -33,7 +33,7 @@ class WalkthruInfoScreen extends Component {
       <div className="settings-page">
         <div className="row">
           <div className="col-md-12">
-            <h4>WELCOME TO MyWalkThru</h4>
+            <h4>WELCOME TO GNOS</h4>
             <hr />
           </div>
         </div>
@@ -61,14 +61,14 @@ class WalkthruInfoScreen extends Component {
         </div>
         <div className="row">
           <div>
-            <a href="https://itunes.apple.com/app/mywalkthru/id1367849133?mt=8" target="_blank">
+            {/* <a href="https://itunes.apple.com/app/mywalkthru/id1367849133?mt=8" target="_blank">
               <img alt="Get on AppStore" width="163" src="https://i.imgur.com/2rHOY4z.png" />
-            </a>
+            </a> */}
           </div>
           <div>
-            <a href="https://play.google.com/store/apps/details?id=org.mywalkthru.app.exp">
+            {/* <a href="https://play.google.com/store/apps/details?id=org.mywalkthru.app.exp">
               <img alt="Get on Google Play" width="163" src="https://i.imgur.com/IkRCvBD.png" />
-            </a>
+            </a> */}
           </div>
         </div>
         <div className="row">

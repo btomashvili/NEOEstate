@@ -63,7 +63,7 @@ class Billing extends Component {
 
   onAddCreditCard(e) {
     this.stripeHandler.open({
-      name: 'MyWalkThru',
+      name: 'Gnos',
       description: 'Property Management',
       panelLabel: 'Add Credit Card',
       allowRememberMe: false,
