@@ -47,7 +47,7 @@ class MainLayout extends Component {
     }
     return (
       <Link to="/" className="navbar-brand" href="#">
-        <span>NEO</span>
+        <span>GNOS Property Management</span>
       </Link>
     )
   }
@@ -63,6 +63,7 @@ class MainLayout extends Component {
             </button>
             <div className={`${!this.state.collapsed ? 'collapse' : ''} navbar-collapse`} id="navbarNavDropdown">
               <ul className="navbar-nav mr-auto">
+                {/*
                 {this.props.isLoggedIn && (
                   <li className="nav-item">
                     <Link className="nav-link text-light" to="/tenants">
@@ -70,8 +71,9 @@ class MainLayout extends Component {
                     </Link>
                   </li>
                 )}
+                */}
               </ul>
-             
+
 
               <div className="navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav mr-auto" />

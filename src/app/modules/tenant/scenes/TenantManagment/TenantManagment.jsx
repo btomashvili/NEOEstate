@@ -18,7 +18,11 @@ import {
   inProgressTenantRequest,
 } from '../../actions/tenantActions'
 
-import { updateFieldValue as updateCurrentUserFieldValue } 
+import {
+  propertyListRequest,
+} from '../../../property/actions/propertyActions'
+
+import { updateFieldValue as updateCurrentUserFieldValue }
 from '../../../currentUser/actions/currentUserActions'
 
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
@@ -38,16 +42,14 @@ class TenantManagment extends Component {
   }
 
   componentDidMount() {
-    this.runQuery(this.props)
-
-    console.log('this.props.nos', this.props.nos)
-    // this.props.updateFieldValue('')
     this.props.nos.getAddress()
-      .then((e) => { 
-        // alert(e) 
+      .then((walletAddress) => {
+        // alert(e)
         this.props.updateCurrentUserFieldValue('isLoggedIn', true)
-        this.props.updateCurrentUserFieldValue('walletAddress', e)
-        this.props.updateCurrentUserFieldValue('data.email', e)
+        this.props.updateCurrentUserFieldValue('walletAddress', walletAddress)
+        this.props.updateCurrentUserFieldValue('data.email', walletAddress)
+
+        this.runQuery(this.props)
       })
   }
 
@@ -67,9 +69,13 @@ class TenantManagment extends Component {
 
   runQuery = (props) => {
     this.filterQuery(props)
+    const { walletAddress } = this.props
     setTimeout(() => {
       const query = this.props.query.toJS()
-      this.props.leaseListRequest(query)
+      // query.where = {
+      //   address: walletAddress,
+      // }
+      this.props.dispatch(propertyListRequest(query))
     }, 30)
   }
 
@@ -108,11 +114,6 @@ class TenantManagment extends Component {
     if (tenant.get('status') && tenant.get('status').toLowerCase() === 'submited') {
       return <button className="btn btn-sm btn-success">Submitted </button>
     }
-
-    // TODO: https://trello.com/c/O85lT3q0
-    // if (moment().isAfter(tenant.get('leaseExpires'))) {
-    //   return (<button className="btn btn-sm btn-danger">Expired</button>)
-    // }
 
     return <button className="btn btn-sm btn-primary">In Progress</button>
   }
@@ -154,11 +155,10 @@ class TenantManagment extends Component {
           <li className="list-group-item">
             <span className="data-label">Status:</span>
             {this.renderStatus(tenant)}
-            {this.renderAutoSubmited(tenant)}
           </li>
           {/* { tenant.get('isAutoSubmited') && */}
           <li className="list-group-item">
-            <span className="data-label in-progress">Reopen WalkThru for tenant to complete:</span>
+            <span className="data-label in-progress">For Sale:</span>
             <input
               type="checkbox"
               id="inProgress"
@@ -175,26 +175,12 @@ class TenantManagment extends Component {
             {tenant.get('firstName')} {tenant.get('lastName')}
           </li>
           <li className="list-group-item">
-            <span className="data-label">Email:</span>
-            <Link href={`mailto:${tenant.get('email')}`} target="_blank">
-              {tenant.get('email')}
-            </Link>
+            <span className="data-label">Price:</span>
+            <input type="number" min="0" step={1000} /> $ (USD)
           </li>
           <li className="list-group-item">
-            <span className="data-label">Cell Phone:</span>
-            <a href={`tel:${tenant.get('phone')}`}>{tenant.get('phone')}</a>
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Date of WalkThru:</span>
-            {moment(tenant.get('leaseBegins')).format('MM/DD/YYYY')}
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Due Date:</span>
-            {moment(tenant.get('leaseExpires')).format('MM/DD/YYYY')}
-          </li>
-          <li className="list-group-item">
-            <span className="data-label">Invite Code:</span>
-            {tenant.get('inviteCode')}
+            <span className="data-label">Address:</span>
+            <input type="text" value={`${this.generateAddressForReport(tenant)}`} />
           </li>
         </ul>
       </div>
@@ -326,13 +312,15 @@ function mapStateToProps(state) {
     pageSize: state.tenant.getIn(['query', 'pageSize']),
     currentPage: state.tenant.getIn(['query', 'page']),
     totalCount: state.tenant.get('totalCount'),
-    items: state.tenant.get('leases'),
+    items: state.property.get('items'),
     searchText: state.tenant.get('searchText'),
     defaultNumberOfDaysToComplete: state.currentUser.getIn(['data', 'defaultNumberOfDaysToComplete']),
+    walletAddress: state.currentUser.get('walletAddress'),
   }
 }
 
 const mapDispatchToProps = dispatch => ({
+  dispatch,
   leaseListRequest: query => dispatch(leaseListRequest(query)),
   deleteTenantRequest: (id, lease) => dispatch(deleteTenantRequest(id, lease)),
   searchTenantRequest: text => dispatch(tenantSearchSuccess(text)),

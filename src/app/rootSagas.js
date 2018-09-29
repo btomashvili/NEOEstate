@@ -8,10 +8,12 @@ import * as userSagas from './modules/user/userSagas'
 import * as tenantSagas from './modules/tenant/tenantSagas'
 import * as billingSagas from './modules/billing/billingSagas'
 import * as activitySagas from './modules/activity/activitySagas'
+import * as propertySagas from './modules/property/propertySagas'
 
 import * as currentUserTypes from '../app/modules/currentUser/actions/currentUserTypes'
 import * as commonTypes from '../app/modules/common/actions/commonTypes'
 import * as userTypes from '../app/modules/user/actions/userTypes'
+import * as propertyTypes from '../app/modules/property/actions/propertyTypes'
 
 import * as tenantTypes from '../app/modules/tenant/actions/tenantTypes'
 import * as billingTypes from '../app/modules/billing/actions/billingTypes'
@@ -82,5 +84,7 @@ export default function* root() {
 
     takeLatest(activityTypes.ACTIVITY_BY_KEY_REQUEST, activitySagas.getActivityByKey),
     takeLatest(activityTypes.ACTIVITY_DELETE_BY_KEY_REQUEST, activitySagas.deleteActivityByKey),
+
+    takeLatest(propertyTypes.PROPERTY_LIST_REQUEST, propertySagas.propertyListSaga),
   ]
 }
