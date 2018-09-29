@@ -37,6 +37,7 @@ class TenantManagment extends Component {
       isBodyVisible: false,
       cards: {},
       previousCard: null,
+      isSellModalVisible: false,
     }
   }
 
@@ -91,6 +92,14 @@ class TenantManagment extends Component {
       // }
       this.props.dispatch(propertyListRequest(query))
     }, 30)
+  }
+
+  showSellModal(item) {
+    console.log('reset')
+    this.setState({ isSellModalVisible: true })
+  }
+  closeSellModal(item) {
+    this.setState({ isSellModalVisible: false })
   }
 
   deleteMessage(tenant) {
@@ -255,6 +264,47 @@ class TenantManagment extends Component {
     )
   }
 
+  renderSellModal() {
+    const { isSellModalVisible } = this.state
+
+    if (!isSellModalVisible) {
+      return null
+    }
+
+    return (
+      <div className="modal-bg" >
+        <div className="modal" tabIndex="-1" role="dialog" style={{ display: 'block' }}>
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Transfer property</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="form-group">
+                    <label>Wallet Address</label>
+                    <input type="text" className="form-control" placeholder="Wallet Address" />
+                  </div>
+                  <div className="form-group">
+                    <label>Amount (NEO)</label>
+                    <input type="number" className="form-control" placeholder="Enter ammount..." />
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={this.closeSellModal.bind(this)} >Sell</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="tenants-page">
@@ -298,61 +348,36 @@ class TenantManagment extends Component {
             {this.props.items.valueSeq().map((tenant, key) => (
               <div key={key}>
                 <div className="card">
-                  <div
-                    className="card-header"
-                    onClick={() => {
-                      const { cards } = this.state
-                      cards[tenant.get('lease')] = !cards[tenant.get('lease')]
+                  <div className="card-header">
+                    <div
+                      className="float-left"
+                      onClick={() => {
+                        const { cards } = this.state
+                        cards[tenant.get('lease')] = !cards[tenant.get('lease')]
                       // cards[tenant.get('lease')] = true
 
-                      if (Object.keys(cards).length > 1) {
-                        cards[this.state.previousCard] = false // hide previous card
-                      }
+                        if (Object.keys(cards).length > 1) {
+                          cards[this.state.previousCard] = false // hide previous card
+                        }
 
-                      this.setState({ cards, previousCard: tenant.get('lease') })
-                    }}
-                  >
-                    <div className="float-left">
+                        this.setState({ cards, previousCard: tenant.get('lease') })
+                      }}
+                    >
                       <h4>
                         <i className="fa fa-home" /> &nbsp;
                         <span>{tenant.get('address')} </span>
                       </h4>
                     </div>
                     <div className="float-right">
-                      <Link
-                        to={`/activities/${tenant.get('id')}/${tenant.get('lease')}`}
-                        className="btn btn-icon btn-sm btn-default report-btn"
+
+                      <button
+                        onClick={this.showSellModal.bind(this)}
+                        className={'btn btn-icon btn-sm btn-primary'}
                       >
                         <i className="fa fa-file-text" aria-hidden="true" />
-                        Activities
-                      </Link>
-                      {/* {tenant.get('status') === 'submited' && */}
-                      <Link
-                        to={`${process.env.apiUrl}/api/v1/tenant/${tenant.get('id')}/pdf?lease=${tenant.get(
-                          'lease'
-                        )}&address=${this.generateAddressForReport(tenant)}`}
-                        target="_blank"
-                        className={this.renderReportButtonStyle(tenant.get('status') === 'submited')}
-                      >
-                        <i className="fa fa-file-text" aria-hidden="true" />
-                        Report
-                      </Link>
-                      {/* } */}
-                      <div className="btn-group" role="group">
-                        <Link
-                          to={`/tenants/edit/${tenant.get('id')}/${tenant.get('lease')}`}
-                          className="btn btn-sm btn-primary"
-                        >
-                          <i className="fa fa-pencil" aria-hidden="true" />
-                        </Link>
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-primary"
-                          onClick={() => this.deleteMessage(tenant)}
-                        >
-                          <i className="fa fa-trash-o" aria-hidden="true" />
-                        </button>
-                      </div>
+                        Sell
+                      </button>
+
                     </div>
                   </div>
                   {this.renderBody(tenant)}
@@ -362,6 +387,8 @@ class TenantManagment extends Component {
             ))}
           </div>
         </div>
+
+        {this.renderSellModal()}
       </div>
     )
   }
