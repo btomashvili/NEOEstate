@@ -62,7 +62,7 @@ class MainLayout extends Component {
   renderNavbarHeader() {
     return (
       <Link to="/" className="navbar-brand" href="#">
-        <span>GNOS</span>
+        <span>NEOEstate</span>
       </Link>
     )
   }
@@ -70,7 +70,7 @@ class MainLayout extends Component {
   render() {
     return (
       <div className="main-wrapper">
-        <nav className="navbar navbar-dark bg-primary fixed-top navbar-expand-lg">
+        <nav className="navbar navbar-dark bg-success navbar-neo fixed-top navbar-expand-lg">
           <div className="container">
             {this.renderNavbarHeader()}
             <button className="navbar-toggler" type="button" onClick={() => this.toggleNav()}>

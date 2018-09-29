@@ -147,7 +147,7 @@ class SettingsScreen extends Component {
               <FormGroupRow>
                 <Button
                   type="submit"
-                  className="button--block button--picton-blue  button--padding-lg"
+                  className="button--block button--picton-blue  button--padding-lg bg-success"
                   onClick={this.invoke}
                 >
                     Invoke Contract
@@ -186,7 +186,7 @@ class SettingsScreen extends Component {
               <FormGroupRow>
                 <Button
                   type="submit"
-                  className="button--block button--picton-blue  button--padding-lg"
+                  className="button--block button--picton-blue  button--padding-lg bg-success"
                   onClick={this.sendNEO}
                 >
                     Send NEO

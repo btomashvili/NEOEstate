@@ -238,7 +238,7 @@ class TenantManagment extends Component {
             {item.get('link')}
           </li>
           <li className="list-group-item">
-            <span className="data-label">owner (Waller Address):</span>
+            <span className="data-label">owner (Wallet Address):</span>
             {item.get('owner')}
           </li>
 
@@ -323,9 +323,9 @@ class TenantManagment extends Component {
             </div>
 
             <div className="float-right">
-              <button className="btn btn-danger btn-icon" type="button" onClick={() => this.invokeContract()}>
+              {/* <button className="btn btn-danger btn-icon" type="button" onClick={() => this.invokeContract()}>
                 <i className="fa fa-plus" aria-hidden="true" /> Test Invoke
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="col-md-6">
