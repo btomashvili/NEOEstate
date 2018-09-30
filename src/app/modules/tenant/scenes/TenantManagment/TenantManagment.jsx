@@ -33,7 +33,6 @@ import { showMessageBox } from '../../../../components/helpers/messageBox'
 const SEND_OFFER_HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
 const SEND_OFFER_OPERATION = 'sendOffer'
 
-
 const REGISTRATION_HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
 const REGISTRATION_OFFER_OPERATION = 'registrationProperty'
 
