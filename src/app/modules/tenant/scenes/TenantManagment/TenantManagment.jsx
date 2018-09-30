@@ -1,12 +1,12 @@
 /* eslint import/no-extraneous-dependencies:0 */
 /* eslint class-methods-use-this:0 */
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import moment from 'moment'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
-import { Input } from '../../../../components/Input/Input'
+// import { Input } from '../../../../components/Input/Input'
 import './TenantManagment.scss'
 
 import {
@@ -22,8 +22,9 @@ import { injectNOS } from '@nosplatform/api-functions/lib/react'
 import deleteConfirmIcon from '../../../../resources/assets/images/icons/delete-confirm.svg'
 import { showMessageBox } from '../../../../components/helpers/messageBox'
 
-const SEND_OFFER_HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
+const HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
 const SEND_OFFER_OPERATION = 'sendOffer'
+const REGISTRATION_OFFER_OPERATION = 'registrationProperty'
 
 const { GAS } = window.NOS.ASSETS
 
@@ -100,6 +101,20 @@ class TenantManagment extends Component {
       icon: deleteConfirmIcon,
       confirmCallback: () => {
         const data = offer.toJS()
+        const nos = window.NOS.V1
+        // NOTE: this is script for sendoffer constract
+        const scriptHash = HASH_SCRIPT
+        const operation = REGISTRATION_OFFER_OPERATION
+        const args = [this.state.order.to, this.state.order.amount]
+        nos.invoke({ scriptHash, operation, args })
+        .then((txid) => {
+          alert(`Success Invoke txid: ${txid}`)
+          console.log('txid =>>', txid)
+        })
+        .catch((err) => {
+          alert(`Error: ${err.message}`)
+          console.log('ERR =>>', err)
+        })
         this.props.dispatch(confirmOfferRequest(data))
       },
     })
@@ -112,9 +127,7 @@ class TenantManagment extends Component {
 
   // NOTE: test contract
   invokeContract() {
-    // alert('invoke')
     const nos = window.NOS.V1
-
     // const scriptHash = '2f228c37687d474d0a65d7d82d4ebf8a24a3fcbc'
     const scriptHash = '5f47e23a39368551b1b66047aad0f3f843fea89e'
     // const scriptHash = '4b7f81954214a90b54d56e12f42cb9ac46de020a'
@@ -135,7 +148,7 @@ class TenantManagment extends Component {
   sendOffer() {
     const nos = window.NOS.V1
     // NOTE: this is script for sendoffer constract
-    const scriptHash = SEND_OFFER_HASH_SCRIPT
+    const scriptHash = HASH_SCRIPT
     const operation = SEND_OFFER_OPERATION
     const args = [this.state.order.to, this.state.order.amount]
     nos.invoke({ scriptHash, operation, args })
