@@ -10,14 +10,6 @@ import { Input } from '../../../../components/Input/Input'
 import './TenantManagment.scss'
 
 import {
-  leaseListRequest,
-  updateFieldValue,
-  deleteTenantRequest,
-  tenantSearchSuccess,
-  inProgressTenantRequest,
-} from '../../actions/tenantActions'
-
-import {
   propertyListRequest,
   transferPropertyRequest,
   offerListRequest,
@@ -73,8 +65,7 @@ class TenantManagment extends Component {
   }
 
   filterQuery() {
-    const where = {}
-    this.props.updateFieldValue('query.where', where)
+    // const where = {}
   }
 
   runQuery = (props) => {
@@ -576,14 +567,12 @@ function mapStateToProps(state) {
     currentUserRole: state.currentUser.getIn(['data', 'role']),
     currentUser: state.currentUser.get('data'),
     reloadData: state.property.get('reloadData'),
-    isLoading: state.tenant.get('isLoading'),
-    query: state.tenant.get('query'),
-    pageSize: state.tenant.getIn(['query', 'pageSize']),
-    currentPage: state.tenant.getIn(['query', 'page']),
-    totalCount: state.tenant.get('totalCount'),
+    query: state.property.get('query'),
+    pageSize: state.property.getIn(['query', 'pageSize']),
+    currentPage: state.property.getIn(['query', 'page']),
+    totalCount: state.property.get('totalCount'),
     items: state.property.get('items'),
     offers: state.property.get('offers'),
-    searchText: state.tenant.get('searchText'),
     defaultNumberOfDaysToComplete: state.currentUser.getIn(['data', 'defaultNumberOfDaysToComplete']),
     walletAddress: state.currentUser.get('walletAddress'),
   }
@@ -591,11 +580,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  leaseListRequest: query => dispatch(leaseListRequest(query)),
-  deleteTenantRequest: (id, lease) => dispatch(deleteTenantRequest(id, lease)),
-  searchTenantRequest: text => dispatch(tenantSearchSuccess(text)),
-  updateFieldValue: (field, value, parent, isDelete) => dispatch(updateFieldValue(field, value, parent, isDelete)),
-  inProgressRequest: (id, lease) => dispatch(inProgressTenantRequest(id, lease)),
 })
 
 export default connect(
