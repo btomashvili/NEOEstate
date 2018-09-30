@@ -49,6 +49,7 @@ class TenantManagment extends Component {
       previousCard: null,
       isSellModalVisible: false,
       activeTab: 'properties',
+      isGel: false,
       // receiver: '',
       // amount: '',
       // property:'',
@@ -125,7 +126,7 @@ class TenantManagment extends Component {
     this.props.searchTenantRequest(e.target.value)
   }
 
-  //NOTE: test contract  
+  // NOTE: test contract
   invokeContract() {
     // alert('invoke')
     const nos = window.NOS.V1
@@ -158,17 +159,16 @@ class TenantManagment extends Component {
     // .then((txid) => alert(`Invoke txid: ${txid} `))
     // .catch((err) => alert(`Error: ${err.message}`));
     // const amount = this.state.order.
-     const receiver = this.state.order.to
-     const amount = String(this.state.order.amount)
-     nos.send({ asset: GAS, amount, receiver })
-     .then(txid => {
+
+    const receiver = this.state.order.to
+    const amount = String(this.state.order.amount)
+    nos.send({ asset: GAS, amount, receiver })
+     .then((txid) => {
        alert(`${amount} GAS sent in transaction ${txid}`)
      })
-     .catch(err => {
-      alert(`Error: ${err.message}`)
+     .catch((err) => {
+       alert(`Error: ${err.message}`)
      })
-
-
   }
 
   // generateAddressForReport(tenant) {
@@ -257,8 +257,10 @@ class TenantManagment extends Component {
           </li>
           <li className="list-group-item">
             <span className="data-label">MAP Address:</span>
-            <a href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`} 
-              target="_blank" >View on Google map</a>
+            <a
+href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
+              target="_blank"
+            >View on Google map</a>
           </li>
           <li className="list-group-item">
             <span className="data-label">Registration Date:</span>
@@ -318,9 +320,29 @@ class TenantManagment extends Component {
                     ex: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</span>
                   </div>
                   <div className="form-group">
-                    <label>Amount (NEO)</label>
-                    <input type="number" className="form-control" required onChange={this.updateOrderDetails('amount').bind(this)} value={amount} placeholder="Enter amount..." />
+                    <label>Pay With Bank</label>
+                    <input type="checkbox"
+                      className="form-control"
+                      required
+                      id="isGel"
+                      onChange={() => this.setState({ isGel: !this.state.isGel })}
+                      checked={this.state.isGel}
+                      placeholder="Enter amount..."
+                    />
+                      <label
+                        className={`switch ${!this.state.isGel}`}
+                        htmlFor="isGel"
+                      >Toggle</label>
                   </div>
+                  <div className="form-group">
+                    <label>{ this.state.isGel ? 'Amount GEL' : 'Amount NEO'}</label>
+                    <input type="number" className="form-control"
+                          required 
+                          onChange={this.updateOrderDetails('amount').bind(this)} value={amount} 
+                          placeholder="Enter amount..."
+                    />
+                  </div>
+                  
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
