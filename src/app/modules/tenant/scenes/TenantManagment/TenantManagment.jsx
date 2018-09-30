@@ -166,7 +166,7 @@ class TenantManagment extends Component {
     const operation = SEND_OFFER_OPERATION
     const args = [this.state.order.to, this.state.order.amount]
     nos.invoke({ scriptHash, operation, args })
-    .then((txid) => { 
+    .then((txid) => {
       alert(`Success Invoke txid: ${txid}`)
       console.log('txid =>>', txid)
     })
@@ -194,7 +194,6 @@ class TenantManagment extends Component {
   }
 
   transfer() {
-    
     const { order } = this.state
     if (!order.to || !order.amount) {
       return
@@ -258,7 +257,7 @@ class TenantManagment extends Component {
           <li className="list-group-item">
             <span className="data-label">MAP Address:</span>
             <a
-href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
+              href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
               target="_blank"
             >View on Google map</a>
           </li>
@@ -321,25 +320,27 @@ href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
                   </div>
                   <div className="form-group">
                     <label>Pay With Bank</label>
-                    <input type="checkbox"
+                    <input
+                      type="checkbox"
                       className="form-control"
-                      required
+                      name="pay"
                       id="isGel"
                       onChange={() => this.setState({ isGel: !this.state.isGel })}
                       checked={this.state.isGel}
                       placeholder="Enter amount..."
                     />
-                      <label
-                        className={`switch ${!this.state.isGel}`}
-                        htmlFor="isGel"
-                      >Toggle</label>
+                    <label
+                      className={`switch ${!this.state.isGel}`}
+                      htmlFor="isGel"
+                    >Toggle</label>
                   </div>
                   <div className="form-group">
                     <label>{ this.state.isGel ? 'Amount GEL' : 'Amount NEO'}</label>
-                    <input type="number" className="form-control"
-                          required 
-                          onChange={this.updateOrderDetails('amount').bind(this)} value={amount} 
-                          placeholder="Enter amount..."
+                    <input
+                      type="number" className="form-control"
+                      required
+                      onChange={this.updateOrderDetails('amount').bind(this)} value={amount}
+                      placeholder="Enter amount..."
                     />
                   </div>
                 </div>
