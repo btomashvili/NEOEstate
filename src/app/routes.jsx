@@ -17,12 +17,12 @@ export default (lang = 'en') => {
   return (
     <Route path="/" onChange={() => window.scrollTo(0, 0)} component={Main}>
       <IndexRoute component={Home} />
-      <Route path="/tenants" component={AssetManagment} />
-      <Route path="/profile" onEnter={requireAuth} title={trans.myProfile} component={UserProfile} />
-      <Route path="/change-password" onEnter={requireAuth} title={trans.myProfile} component={UserSettings} />
-      <Route path="/settings" onEnter={requireAuth} title="SettingsScreen" component={SettingsScreen} />
+      <Route path="/assets" component={AssetManagment} />
       <Route path="/samples"title="SettingsScreen" component={SettingsScreen} />
 
+      {/* <Route path="/profile" onEnter={requireAuth} title={trans.myProfile} component={UserProfile} /> */}
+      {/* <Route path="/change-password" onEnter={requireAuth} title={trans.myProfile} component={UserSettings} /> */}
+      {/* <Route path="/settings" onEnter={requireAuth} title="SettingsScreen" component={SettingsScreen} /> */}
 
       <Route title="404 Page Not Found" path="*" component={() => null} />
     </Route>

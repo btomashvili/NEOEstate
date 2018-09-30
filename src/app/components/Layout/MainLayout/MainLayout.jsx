@@ -81,7 +81,7 @@ class MainLayout extends Component {
                 
                 {this.props.isLoggedIn && (
                   <li className="nav-item">
-                    <Link className="nav-link text-light" to="/tenants">
+                    <Link className="nav-link text-light" to="/assets">
                       Properties
                     </Link>
                   </li>
