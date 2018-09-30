@@ -33,6 +33,10 @@ import { showMessageBox } from '../../../../components/helpers/messageBox'
 const SEND_OFFER_HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
 const SEND_OFFER_OPERATION = 'sendOffer'
 
+
+const REGISTRATION_HASH_SCRIPT = 'ebcff06a5794a5fd4ea00fa6c08c15cf621b3233'
+const REGISTRATION_OFFER_OPERATION = 'registrationProperty'
+
 const { GAS } = window.NOS.ASSETS
 
 
@@ -109,6 +113,20 @@ class TenantManagment extends Component {
       icon: deleteConfirmIcon,
       confirmCallback: () => {
         const data = offer.toJS()
+        const nos = window.NOS.V1
+        // NOTE: this is script for sendoffer constract
+        const scriptHash = SEND_OFFER_HASH_SCRIPT
+        const operation = REGISTRATION_OFFER_OPERATION
+        const args = [this.state.order.to, this.state.order.amount]
+        nos.invoke({ scriptHash, operation, args })
+        .then((txid) => {
+          alert(`Success Invoke txid: ${txid}`)
+          console.log('txid =>>', txid)
+        })
+        .catch((err) => {
+          alert(`Error: ${err.message}`)
+          console.log('ERR =>>', err)
+        })
         this.props.dispatch(confirmOfferRequest(data))
       },
     })
