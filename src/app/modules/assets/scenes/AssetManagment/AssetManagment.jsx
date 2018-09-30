@@ -7,7 +7,7 @@ import moment from 'moment'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
 // import { Input } from '../../../../components/Input/Input'
-import './TenantManagment.scss'
+import './assets.scss'
 
 import {
   propertyListRequest,
@@ -29,7 +29,7 @@ const REGISTRATION_OFFER_OPERATION = 'registrationProperty'
 const { GAS } = window.NOS.ASSETS
 
 
-class TenantManagment extends Component {
+class AssetManagment extends Component {
   constructor(props) {
     super(props)
     this.showSellModal = this.showSellModal.bind(this)
@@ -598,4 +598,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(injectNOS(TenantManagment))
+)(injectNOS(AssetManagment))

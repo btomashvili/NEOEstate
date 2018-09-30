@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory, Link } from 'react-router'
 import './Home.scss'
 import '../../../components/Button/Button.scss'
-import TenantManagment from '../../tenant/scenes/TenantManagment/TenantManagment'
+import AssetManagment from '../../assets/scenes/AssetManagment/AssetManagment'
 
 class Home extends Component {
   constructor(props) {
@@ -11,19 +10,8 @@ class Home extends Component {
     this.state = {}
   }
 
-  componentDidMount() {
-    // if (!this.props.isLoggedIn) {
-    //   return browserHistory.push('/login')
-    // }
-  }
-
   render() {
-    // if (this.props.isLoggedIn) {
-    //   return <TenantManagment />
-    // }
-    return <TenantManagment />
-
-    // return <Link to="login" />
+    return <AssetManagment />
   }
 }
 
