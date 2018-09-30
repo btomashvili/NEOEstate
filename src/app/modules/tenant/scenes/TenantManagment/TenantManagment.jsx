@@ -24,8 +24,6 @@ import {
   confirmOfferRequest,
 } from '../../../property/actions/propertyActions'
 
-import { updateFieldValue as updateCurrentUserFieldValue }
-from '../../../currentUser/actions/currentUserActions'
 
 import { injectNOS } from '@nosplatform/api-functions/lib/react'
 
@@ -178,10 +176,12 @@ class TenantManagment extends Component {
   }
 
   transfer() {
+    
     const { order } = this.state
     if (!order.to || !order.amount) {
       return
     }
+    this.sendOffer()
     const { dispatch } = this.props
     dispatch(transferPropertyRequest(order))
     this.closeSellModal()
@@ -324,11 +324,10 @@ href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
                           placeholder="Enter amount..."
                     />
                   </div>
-                  
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" onClick={this.closeSellModal.bind(this)} data-dismiss="modal">Close</button>
-                  <button type="submit" className="btn btn-primary" onClick={this.sendOffer.bind(this)} >Send Offer</button>
+                  <button type="submit" className="btn btn-primary">Send Offer</button>
                 </div>
               </div>
             </div>
@@ -394,9 +393,7 @@ href={`https://www.google.com/maps/?q=${item.get('mapAddress')}`}
                       onClick={() => {
                         const { cards } = this.state
                         cards[tenant.get('_id')] = !cards[tenant.get('_id')]
-                    // cards[tenant.get('_id')] = true
-
-                        console.log(tenant.get('_id'))
+                        // console.log(tenant.get('_id'))
 
                         if (Object.keys(cards).length > 1) {
                           cards[this.state.previousCard] = false // hide previous card
